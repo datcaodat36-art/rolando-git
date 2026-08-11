@@ -1,0 +1,27 @@
+{
+  "name": "AI Tools – Free AI Tools Online",
+  "short_name": "AI Tools",
+  "description": "Discover the best AI tools for writing, images, video, coding, productivity and more. Find the right AI tool for your needs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050816",
+  "theme_color": "#050816",
+  "icons": [
+    {
+      "src": "brand/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "brand/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "brand/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

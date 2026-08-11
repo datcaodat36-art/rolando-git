@@ -1,0 +1,2017 @@
+// =======================================
+// PROMPT LIBRARY — dữ liệu mặc định (nhúng trực tiếp bằng JS)
+// =======================================
+// LÝ DO FILE NÀY TỒN TẠI:
+// prompts.js trước đây chỉ nạp prompt mặc định bằng fetch("/data/prompts.json").
+// Cách này hoạt động tốt khi web chạy qua HTTP(S) (Vercel/Netlify/localhost),
+// nhưng KHÔNG hoạt động khi người dùng mở thẳng file index.html trên máy
+// (giao thức file://, ví dụ giải nén ZIP/RAR rồi bấm đúp mở) — trình duyệt
+// chặn fetch() tới file cục bộ vì lý do bảo mật (CORS), nên Prompt Library
+// hiện trống dù dữ liệu vẫn còn nguyên trong data/prompts.json.
+//
+// Để Prompt Library LUÔN có nội dung ngay cả khi mở bằng file:// (giống
+// cách aiTools trong data.js hoạt động), toàn bộ danh sách prompt mặc định
+// được nhúng thẳng vào biến JS DEFAULT_PROMPTS bên dưới. prompts.js sẽ ưu
+// tiên dùng biến này ngay lập tức, KHÔNG cần chờ fetch. fetch("/data/prompts.json")
+// vẫn được thử thêm (khi chạy qua HTTP) chỉ để dự phòng/đồng bộ nếu sau
+// này bạn cập nhật data/prompts.json mà quên cập nhật file này.
+//
+// QUAN TRỌNG: Nếu bạn SỬA/THÊM/XOÁ prompt trong data/prompts.json, hãy
+// cập nhật LẠI file này (DEFAULT_PROMPTS) cho khớp, để bản mở bằng file://
+// cũng thấy đúng dữ liệu mới nhất.
+const DEFAULT_PROMPTS = [
+  {
+    "id": "p001",
+    "title": "Professional YouTube Script",
+    "slug": "professional-youtube-script",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate a structured, retention-optimized script for a YouTube video, complete with hook, chapters and a call to action.",
+    "prompt": "You are an experienced YouTube scriptwriter. Write a complete video script about \"[TOPIC]\" for a channel aimed at \"[AUDIENCE]\".\n\nStructure the script as:\n1. Hook (first 15 seconds) — a bold claim, question, or surprising fact that stops the scroll.\n2. Intro (15-30s) — tell viewers exactly what they'll learn and why it matters.\n3. Main content — break into 3-5 clearly labeled chapters/timestamps, each delivering one concrete idea with an example.\n4. Recap — summarize the key takeaways in one short paragraph.\n5. Call to action — ask viewers to like, subscribe, or comment with a specific question.\n\nKeep the tone conversational, use short sentences, and flag places where I should add a visual or B-roll cue in [brackets]. Target length: about [LENGTH] minutes of spoken content.",
+    "tags": [
+      "youtube",
+      "script",
+      "content creation",
+      "video"
+    ],
+    "createdAt": "2026-06-02",
+    "featured": true
+  },
+  {
+    "id": "p002",
+    "title": "Code Review Assistant",
+    "slug": "code-review-assistant",
+    "category": "coding",
+    "ai": [
+      "Claude",
+      "ChatGPT",
+      "GitHub Copilot"
+    ],
+    "description": "Turn any AI model into a thorough, constructive code reviewer that flags bugs, style issues and security risks.",
+    "prompt": "Act as a senior software engineer performing a code review. I will paste a code snippet or diff below.\n\nFor the code I share, respond with:\n1. **Summary** — one sentence on what the code does.\n2. **Bugs & correctness issues** — anything that could break at runtime or produce wrong results, with the exact line referenced.\n3. **Security concerns** — injection risks, unsafe input handling, secrets in code, etc.\n4. **Readability & style** — naming, structure, or formatting improvements, following [LANGUAGE/FRAMEWORK] conventions.\n5. **Suggested refactor** — a short rewritten version of the most important fix, in a code block.\n\nBe direct and specific. Don't rewrite the entire file unless I ask — just show the parts that changed. Here is the code:\n\n[PASTE CODE HERE]",
+    "tags": [
+      "code review",
+      "debugging",
+      "software engineering"
+    ],
+    "createdAt": "2026-07-14",
+    "featured": true
+  },
+  {
+    "id": "p003",
+    "title": "SEO Blog Post Outline",
+    "slug": "seo-blog-post-outline",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "description": "Produce an SEO-friendly outline for a blog post, including target keywords, headings and meta description.",
+    "prompt": "You are an SEO content strategist. Create a detailed outline for a blog post targeting the keyword \"[PRIMARY KEYWORD]\" for an audience of \"[AUDIENCE]\".\n\nInclude:\n- A compelling, keyword-rich title (under 60 characters)\n- A meta description (under 155 characters) that encourages clicks\n- 5-8 H2/H3 headings that follow a logical reading flow\n- 2-3 bullet points of what should be covered under each heading\n- 3-5 secondary/LSI keywords to weave in naturally\n- One suggested internal linking opportunity and one external authoritative source to cite\n- A recommended word count based on top-ranking competitor content\n\nDo not write the full article yet — outline only.",
+    "tags": [
+      "seo",
+      "blogging",
+      "content strategy"
+    ],
+    "createdAt": "2026-05-20",
+    "featured": true
+  },
+  {
+    "id": "p004",
+    "title": "Cinematic Portrait Prompt",
+    "slug": "cinematic-portrait-prompt",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "A reusable template for generating cinematic, editorial-style portrait images with consistent lighting and mood.",
+    "prompt": "cinematic portrait of [SUBJECT DESCRIPTION], [AGE] years old, [EXPRESSION/MOOD], soft rim lighting from the left, shallow depth of field, shot on 85mm lens at f/1.4, film grain, muted color grade with teal and orange accents, editorial photography style, ultra-detailed skin texture, background softly blurred showing [SETTING], shot like a still from an A24 film --ar 2:3 --style raw --v 6",
+    "tags": [
+      "portrait",
+      "photography style",
+      "midjourney"
+    ],
+    "createdAt": "2026-04-11",
+    "featured": true
+  },
+  {
+    "id": "p005",
+    "title": "Product Explainer Video Storyboard",
+    "slug": "product-explainer-storyboard",
+    "category": "video",
+    "ai": [
+      "Runway",
+      "Sora",
+      "ChatGPT"
+    ],
+    "description": "Break a product idea into a shot-by-shot storyboard ready to feed into an AI video generator.",
+    "prompt": "Act as a video director. I want a 30-second product explainer video for \"[PRODUCT NAME]\", which does \"[ONE-LINE VALUE PROP]\".\n\nCreate a shot-by-shot storyboard with 6-8 shots. For each shot, give me:\n- Shot number and duration (in seconds)\n- Camera framing (close-up, wide, over-the-shoulder, etc.)\n- What's happening on screen\n- Suggested on-screen text or voiceover line\n- Mood/lighting notes\n\nThe pacing should build from a relatable problem, to the product as the solution, to a clear call to action in the final shot. Keep voiceover lines under 12 words each so they read comfortably at normal speaking pace.",
+    "tags": [
+      "storyboard",
+      "product video",
+      "ads"
+    ],
+    "createdAt": "2026-07-01",
+    "featured": true
+  },
+  {
+    "id": "p006",
+    "title": "Exam Concept Simplifier",
+    "slug": "exam-concept-simplifier",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "description": "Turn a dense textbook concept into a simple explanation with an analogy and a practice question.",
+    "prompt": "You are a patient tutor. I'm studying for an exam on \"[SUBJECT]\" and struggling with the concept of \"[CONCEPT]\".\n\nPlease:\n1. Explain it in plain language, as if to a curious 15-year-old.\n2. Give one real-world analogy that makes it click.\n3. Show a short worked example.\n4. Write one practice question at the same difficulty as my exam, then wait for my answer before revealing the solution.\n\nAvoid jargon unless you define it immediately.",
+    "tags": [
+      "studying",
+      "exam prep",
+      "tutoring"
+    ],
+    "createdAt": "2026-03-18",
+    "featured": true
+  },
+  {
+    "id": "p007",
+    "title": "Literature Review Synthesizer",
+    "slug": "literature-review-synthesizer",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "Perplexity"
+    ],
+    "description": "Summarize and compare multiple papers or sources into a structured mini literature review.",
+    "prompt": "You are a research assistant helping with a literature review on \"[RESEARCH TOPIC]\".\n\nI will paste summaries or abstracts of several sources below. For each one, extract:\n- Main claim/finding\n- Methodology (sample size, method type)\n- Key limitation the authors acknowledge\n\nThen write a short synthesis paragraph that:\n- Identifies where the sources agree\n- Identifies where they disagree or contradict each other\n- Points out a gap in the current research that could be a study idea\n\nSources:\n[PASTE ABSTRACTS/SUMMARIES HERE]",
+    "tags": [
+      "academic writing",
+      "literature review",
+      "synthesis"
+    ],
+    "createdAt": "2026-06-25",
+    "featured": false
+  },
+  {
+    "id": "p008",
+    "title": "Weekly Priorities Planner",
+    "slug": "weekly-priorities-planner",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a messy brain-dump of tasks into a prioritized weekly plan using a simple urgent/important framework.",
+    "prompt": "Act as a productivity coach. Below is an unsorted list of everything on my plate this week.\n\nOrganize it using this process:\n1. Sort every item into one of four buckets: Do Now (urgent+important), Schedule (important, not urgent), Delegate (urgent, not important), Drop (neither).\n2. For the \"Do Now\" and \"Schedule\" buckets, suggest which day of the week (Mon-Fri) each task fits best, assuming I have about [HOURS] focused hours per day.\n3. Flag any task that looks unrealistic to fit this week and suggest what to push to next week.\n\nHere is my list:\n[PASTE TASK LIST HERE]",
+    "tags": [
+      "planning",
+      "time management",
+      "prioritization"
+    ],
+    "createdAt": "2026-07-22",
+    "featured": true
+  },
+  {
+    "id": "p009",
+    "title": "Startup Pitch Deck Feedback",
+    "slug": "startup-pitch-deck-feedback",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Get investor-style critique on a pitch deck outline, slide by slide.",
+    "prompt": "You are an experienced venture capital investor who has reviewed thousands of pitch decks. I'll describe my deck slide by slide; give me candid feedback as if I were pitching to you live.\n\nFor each slide I describe, tell me:\n- What's missing that investors expect to see on that slide\n- One question the current version would raise in an investor's mind\n- A sharper way to phrase the key claim\n\nAt the end, give an overall gut-check: would this deck get a second meeting, and why or why not?\n\nHere are my slides:\n[DESCRIBE EACH SLIDE — PROBLEM, SOLUTION, MARKET SIZE, BUSINESS MODEL, TRACTION, TEAM, ASK]",
+    "tags": [
+      "pitch deck",
+      "startups",
+      "fundraising"
+    ],
+    "createdAt": "2026-05-30",
+    "featured": true
+  },
+  {
+    "id": "p010",
+    "title": "Cold Outreach Email",
+    "slug": "cold-outreach-email",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Draft a short, personalized cold email that gets replies instead of getting ignored.",
+    "prompt": "Write a cold outreach email to \"[RECIPIENT ROLE]\" at \"[COMPANY]\" about \"[REASON FOR REACHING OUT]\".\n\nRules:\n- Under 120 words total.\n- Open with something specific about them or their company, not a generic compliment.\n- State the value to them in one sentence, not a feature list.\n- End with a low-friction ask (a yes/no question, not \"let's hop on a call\").\n- No corporate jargon like \"synergy\" or \"circle back\".\n- Write a subject line under 6 words that would make me open it.",
+    "tags": [
+      "cold email",
+      "sales",
+      "outreach"
+    ],
+    "createdAt": "2026-06-10",
+    "featured": false
+  },
+  {
+    "id": "p011",
+    "title": "Debugging Rubber Duck",
+    "slug": "debugging-rubber-duck",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "A structured 'rubber duck debugging' prompt that forces you to explain the bug clearly before getting a fix.",
+    "prompt": "Act as a rubber duck debugging partner. I'll describe a bug I'm stuck on. Before suggesting any fix, ask me clarifying questions one at a time until you understand:\n- What I expected to happen\n- What actually happened\n- What I've already tried\n- The smallest piece of code that reproduces it\n\nOnly after that, propose a hypothesis for the root cause and one small experiment I can run to confirm it, before giving me the actual fix.\n\nHere's the bug:\n[DESCRIBE THE BUG]",
+    "tags": [
+      "debugging",
+      "problem solving"
+    ],
+    "createdAt": "2026-04-28",
+    "featured": false
+  },
+  {
+    "id": "p012",
+    "title": "App Icon Concept Set",
+    "slug": "app-icon-concept-set",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate a set of clean, modern app icon concepts for a mobile product.",
+    "prompt": "minimalist app icon design for a [APP CATEGORY] app called \"[APP NAME]\", flat vector style, single bold symbol representing [CORE FEATURE], rounded square container, two-tone color palette of [COLOR 1] and [COLOR 2], soft gradient, subtle drop shadow, no text, iOS app icon grid, clean and modern, product design mockup on a plain background --ar 1:1 --v 6",
+    "tags": [
+      "app icon",
+      "ui design",
+      "branding"
+    ],
+    "createdAt": "2026-07-05",
+    "featured": false
+  },
+  {
+    "id": "p013",
+    "title": "Short-Form Video Hook Generator",
+    "slug": "short-form-video-hook-generator",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate a batch of scroll-stopping hooks for TikTok/Reels/Shorts on a given topic.",
+    "prompt": "You are a short-form video strategist. Give me 10 different hook lines (first 3 seconds of spoken/on-screen text) for a video about \"[TOPIC]\" aimed at \"[AUDIENCE]\".\n\nUse a mix of these hook styles, labeling which style each one is:\n- Contrarian statement\n- Curiosity gap / open loop\n- Bold numbers or stat\n- \"Nobody tells you...\" angle\n- Direct callout of the viewer's problem\n\nKeep each hook under 12 words so it fits on screen in large text.",
+    "tags": [
+      "tiktok",
+      "reels",
+      "shorts",
+      "hooks"
+    ],
+    "createdAt": "2026-07-28",
+    "featured": true
+  },
+  {
+    "id": "p014",
+    "title": "Meeting Notes to Action Items",
+    "slug": "meeting-notes-to-action-items",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Convert raw, messy meeting notes into a clean summary with clear owners and deadlines.",
+    "prompt": "Turn the raw meeting notes below into a clean recap. Output in this format:\n\n**Meeting summary:** 2-3 sentence overview of what was discussed.\n\n**Decisions made:**\n- List each decision as one line.\n\n**Action items:**\n- [Owner name] — [task] — [deadline if mentioned, otherwise write \"TBD\"]\n\n**Open questions:**\n- Anything left unresolved that needs a follow-up.\n\nHere are the raw notes:\n[PASTE MEETING NOTES HERE]",
+    "tags": [
+      "meetings",
+      "notes",
+      "action items"
+    ],
+    "createdAt": "2026-06-16",
+    "featured": false
+  },
+  {
+    "id": "p015",
+    "title": "Competitor Analysis Snapshot",
+    "slug": "competitor-analysis-snapshot",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Perplexity"
+    ],
+    "description": "Build a structured comparison of your product against named competitors on key dimensions.",
+    "prompt": "Act as a market research analyst. Compare \"[YOUR PRODUCT]\" against these competitors: [COMPETITOR 1], [COMPETITOR 2], [COMPETITOR 3].\n\nFor each competitor, summarize:\n- Positioning (one sentence on how they market themselves)\n- Pricing model\n- Their strongest feature / differentiator\n- Their weakest point or common user complaint\n\nFinish with a short paragraph on where \"[YOUR PRODUCT]\" has a real opening to differentiate, based on the gaps above.",
+    "tags": [
+      "competitor research",
+      "market analysis",
+      "strategy"
+    ],
+    "createdAt": "2026-05-08",
+    "featured": false
+  },
+  {
+    "id": "p016",
+    "title": "Essay Thesis Strengthener",
+    "slug": "essay-thesis-strengthener",
+    "category": "writing",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Pressure-test an essay thesis statement and suggest sharper, more arguable versions.",
+    "prompt": "You are a writing tutor who specializes in argumentative essays. Here is my thesis statement:\n\n\"[PASTE THESIS STATEMENT]\"\n\n1. Tell me honestly whether it's actually arguable, or if it's just a statement of fact.\n2. Point out any part that's too vague or too broad to defend in one essay.\n3. Suggest 3 sharper, more specific versions of the thesis that would be easier to argue convincingly.\n4. For your favorite version, list 3 supporting points I'd need to prove it.",
+    "tags": [
+      "essay writing",
+      "thesis",
+      "academic writing"
+    ],
+    "createdAt": "2026-03-02",
+    "featured": false
+  },
+  {
+    "id": "p017",
+    "title": "Regex Explainer & Builder",
+    "slug": "regex-explainer-builder",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Get a working regular expression built from a plain-English description, with a line-by-line breakdown.",
+    "prompt": "Act as a regex expert. I need a regular expression that matches: \"[DESCRIBE WHAT YOU WANT TO MATCH]\" and does NOT match: \"[DESCRIBE WHAT SHOULD BE EXCLUDED]\".\n\nGive me:\n1. The final regex pattern in a code block, for [LANGUAGE/FLAVOR, e.g. JavaScript, PCRE, Python re].\n2. A plain-English, token-by-token breakdown of what each part does.\n3. Three example strings that should match and three that shouldn't, to test against.",
+    "tags": [
+      "regex",
+      "programming",
+      "developer tools"
+    ],
+    "createdAt": "2026-04-19",
+    "featured": false
+  },
+  {
+    "id": "p018",
+    "title": "Study Schedule Builder",
+    "slug": "study-schedule-builder",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Create a realistic, spaced-repetition-friendly study schedule leading up to an exam date.",
+    "prompt": "Act as a study coach. I have an exam on \"[SUBJECT]\" on [EXAM DATE]. I need to cover these topics: [LIST TOPICS]. I can study about [HOURS] hours per day, [DAYS PER WEEK] days a week.\n\nBuild a day-by-day study schedule that:\n- Front-loads the topics I find hardest (I'll tell you which ones if asked)\n- Uses spaced repetition — revisit each topic at least twice before the exam, not just once\n- Includes 1-2 full practice-test days in the final week\n- Leaves the last day light, for review only, not new material\n\nAsk me which topics are hardest before building the plan.",
+    "tags": [
+      "study plan",
+      "exam prep",
+      "spaced repetition"
+    ],
+    "createdAt": "2026-02-14",
+    "featured": false
+  },
+  {
+    "id": "p019",
+    "title": "Survey Question Designer",
+    "slug": "survey-question-designer",
+    "category": "research",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a research goal into a set of unbiased, well-structured survey questions.",
+    "prompt": "You are a survey methodology expert. I want to learn: \"[WHAT YOU WANT TO LEARN]\" from \"[TARGET RESPONDENTS]\".\n\nDesign a survey with 8-10 questions that:\n- Starts with 1-2 easy screening/demographic questions\n- Uses a mix of question types (multiple choice, Likert scale, one open-ended)\n- Avoids leading or double-barreled questions\n- Ends with one open-ended question that could surface an insight you didn't think to ask about\n\nFor each question, briefly note what insight it's designed to capture.",
+    "tags": [
+      "surveys",
+      "user research",
+      "methodology"
+    ],
+    "createdAt": "2026-06-30",
+    "featured": false
+  },
+  {
+    "id": "p020",
+    "title": "Daily Standup Summarizer",
+    "slug": "daily-standup-summarizer",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn your own rough notes into a clean, concise daily standup update.",
+    "prompt": "Turn my rough notes below into a clean async standup update in this exact format:\n\n**Yesterday:** what I completed, in 1-3 bullet points.\n**Today:** what I'm focused on, in 1-3 bullet points.\n**Blockers:** anything slowing me down, or \"None\" if there aren't any.\n\nKeep the whole thing under 80 words, written in first person, no fluff.\n\nMy rough notes:\n[PASTE ROUGH NOTES HERE]",
+    "tags": [
+      "standup",
+      "async work",
+      "team updates"
+    ],
+    "createdAt": "2026-07-19",
+    "featured": false
+  },
+  {
+    "id": "p021",
+    "title": "Brand Voice & Tone Guide",
+    "slug": "brand-voice-tone-guide",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Define a reusable brand voice guide so every future piece of copy sounds consistent.",
+    "prompt": "Act as a brand strategist. Based on the description of my brand below, create a brand voice guide with:\n\n1. Three adjectives that describe the voice (e.g. \"witty, direct, warm\") with one sentence explaining each.\n2. A \"we say / we don't say\" table with 5 example phrase pairs relevant to my industry.\n3. Guidance on sentence length, use of humor, and use of emoji.\n4. One paragraph of sample copy (a short product description) written fully in this voice, so I have a reference example.\n\nMy brand: [DESCRIBE YOUR BRAND, PRODUCT, AND TARGET CUSTOMER]",
+    "tags": [
+      "branding",
+      "copywriting",
+      "brand voice"
+    ],
+    "createdAt": "2026-05-15",
+    "featured": false
+  },
+  {
+    "id": "p022",
+    "title": "Product Photo Background Concept",
+    "slug": "product-photo-background-concept",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate a styled, on-brand background scene to composite a product photo into.",
+    "prompt": "professional product photography background, [SETTING/MOOD, e.g. \"sunlit minimalist kitchen counter\"], soft natural light from a window on the left, negative space on the right side of frame for product placement, neutral color palette of [COLOR PALETTE], shallow depth of field, high-end commercial photography, no text, no watermark, 4k, photorealistic --ar 4:5 --v 6",
+    "tags": [
+      "product photography",
+      "ecommerce",
+      "midjourney"
+    ],
+    "createdAt": "2026-04-03",
+    "featured": false
+  },
+  {
+    "id": "p023",
+    "title": "Client Objection Handler",
+    "slug": "client-objection-handler",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Prepare confident, non-pushy responses to the most common objections before a sales call.",
+    "prompt": "Act as a sales coach preparing me for a call. My product is \"[PRODUCT/SERVICE]\" and it costs \"[PRICE]\". Common objections I hear are: [LIST OBJECTIONS, e.g. \"too expensive\", \"need to think about it\", \"already using a competitor\"].\n\nFor each objection, give me:\n- A one-sentence response that acknowledges the concern without being defensive\n- A follow-up question that moves the conversation forward instead of just arguing\n- What NOT to say, because it tends to backfire\n\nKeep every response short enough to say naturally on a call, not a script to read robotically.",
+    "tags": [
+      "sales",
+      "objection handling",
+      "client calls"
+    ],
+    "createdAt": "2026-06-08",
+    "featured": false
+  },
+  {
+    "id": "p024",
+    "title": "Explain Like I'm Five",
+    "slug": "explain-like-im-five",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "description": "A flexible template for getting any complex topic explained simply, with room to go deeper on request.",
+    "prompt": "Explain \"[TOPIC]\" like I'm five years old — use a simple analogy and everyday words, no jargon.\n\nAfter the simple explanation, add one short paragraph titled \"For the curious\" that goes one level deeper for someone who wants a bit more nuance, still without heavy jargon.\n\nIf I ask a follow-up question, keep answering at the same simple level unless I specifically ask you to go technical.",
+    "tags": [
+      "explainer",
+      "eli5",
+      "learning"
+    ],
+    "createdAt": "2026-01-25",
+    "featured": false
+  },
+  {
+    "id": "p025",
+    "title": "API Documentation Writer",
+    "slug": "api-documentation-writer",
+    "category": "coding",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Generate clean, developer-friendly documentation for an API endpoint from a rough description.",
+    "prompt": "You are a technical writer specializing in API docs. I'll describe an endpoint; write clear documentation for it in this format:\n\n## [METHOD] [ENDPOINT PATH]\nShort one-line description of what it does.\n\n**Parameters**\n| Name | Type | Required | Description |\n(fill in from what I describe)\n\n**Example request** (code block, [LANGUAGE])\n\n**Example response** (JSON code block)\n\n**Possible error codes** — list common ones with a one-line explanation each.\n\nHere's the endpoint: [DESCRIBE THE ENDPOINT, PARAMETERS, AND WHAT IT RETURNS]",
+    "tags": [
+      "api docs",
+      "technical writing",
+      "developer tools"
+    ],
+    "createdAt": "2026-07-10",
+    "featured": false
+  },
+  {
+    "id": "p026",
+    "title": "Deep Research Question Planner",
+    "slug": "deep-research-question-planner",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "Perplexity"
+    ],
+    "description": "Break a broad research question into focused sub-questions and a search plan before diving in.",
+    "prompt": "I want to research: \"[BROAD RESEARCH QUESTION]\".\n\nBefore I start searching, help me plan:\n1. Break this into 4-6 focused sub-questions that together would answer the broad question.\n2. For each sub-question, suggest what type of source would answer it best (academic paper, industry report, primary data, expert interview, etc.)\n3. Flag any sub-question that seems likely to have conflicting answers in the literature, so I know to look for multiple viewpoints there.\n\nDon't answer the research question yet — just help me plan how to approach it.",
+    "tags": [
+      "research planning",
+      "deep research"
+    ],
+    "createdAt": "2026-08-01",
+    "featured": true
+  },
+  {
+    "id": "p027",
+    "title": "Cold Email Follow-Up Sequence",
+    "slug": "cold-email-followup-sequence",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a 3-email follow-up sequence that stays polite but persistent after an unanswered cold email.",
+    "prompt": "You are a copywriter specializing in B2B outreach. Write a 3-email follow-up sequence for someone who has not replied to my initial email about \"[OFFER/TOPIC]\", sent to \"[RECIPIENT ROLE, e.g. Head of Marketing]\".\n\nRules:\n- Email 1 (sent 3 days later): short, adds one new piece of value or a different angle, ends with a low-friction question.\n- Email 2 (sent 5 days after that): reference a relevant case study or result in one sentence, ask if timing is the issue.\n- Email 3 (final, sent 7 days after that): brief \"breakup\" email that leaves the door open without guilt-tripping.\n- Keep each email under 80 words, no generic filler like \"just checking in\".\n- Match a [TONE, e.g. friendly and direct] tone throughout.\n\nOutput all three emails with subject lines, clearly labeled Email 1/2/3.",
+    "tags": [
+      "email",
+      "sales",
+      "follow-up",
+      "copywriting"
+    ],
+    "createdAt": "2026-07-20"
+  },
+  {
+    "id": "p028",
+    "title": "Rewrite for Clarity and Conciseness",
+    "slug": "rewrite-clarity-conciseness",
+    "category": "writing",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Tighten wordy or unclear writing into crisp, plain-language sentences without losing meaning.",
+    "prompt": "Act as a professional editor focused on clarity. I will paste a piece of writing below. Rewrite it so that:\n\n1. Every sentence uses plain, direct language (no jargon unless essential to [AUDIENCE]).\n2. Passive voice is converted to active voice wherever it improves clarity.\n3. Sentences longer than 25 words are split or simplified.\n4. Redundant phrases and filler words are removed.\n5. The core meaning and key facts are fully preserved — do not add new claims.\n\nAfter the rewrite, list the 3 biggest clarity problems you fixed and why they mattered.\n\nOriginal text:\n[PASTE TEXT HERE]",
+    "tags": [
+      "editing",
+      "clarity",
+      "plain language",
+      "rewriting"
+    ],
+    "createdAt": "2026-07-22"
+  },
+  {
+    "id": "p029",
+    "title": "LinkedIn Personal Story Post",
+    "slug": "linkedin-personal-story-post",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a work experience or lesson learned into an engaging, scroll-stopping LinkedIn post.",
+    "prompt": "You are a LinkedIn ghostwriter who writes posts that feel personal, not corporate. Based on this experience: \"[BRIEF DESCRIPTION OF WHAT HAPPENED]\", write a LinkedIn post that:\n\n1. Opens with a 1-2 line hook that creates curiosity or tension (no \"I'm excited to share\").\n2. Tells the story in short paragraphs (1-3 sentences each), using line breaks for readability.\n3. Includes one specific, concrete detail (a number, a quote, a moment) that makes it feel real.\n4. Lands on a clear lesson or insight relevant to [TARGET AUDIENCE, e.g. product managers].\n5. Ends with a question that invites comments, not a generic \"thoughts?\".\n\nKeep it under 200 words. Avoid emojis except at most one, and avoid hashtags.",
+    "tags": [
+      "linkedin",
+      "personal branding",
+      "social media",
+      "storytelling"
+    ],
+    "createdAt": "2026-07-25"
+  },
+  {
+    "id": "p030",
+    "title": "Children's Bedtime Story Generator",
+    "slug": "childrens-bedtime-story-generator",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "description": "Create a gentle, age-appropriate bedtime story with a simple moral, customized for a child's interests.",
+    "prompt": "Write an original bedtime story for a [AGE]-year-old child who loves [INTEREST, e.g. dinosaurs, space, dragons]. Requirements:\n\n- Length: about 400-600 words, calm pacing suitable for reading aloud in 5 minutes.\n- Main character: a [CHARACTER TYPE] named [NAME] who faces a small, relatable problem (not scary or violent).\n- Include gentle repetition or a rhythmic phrase the child can anticipate.\n- End with the character feeling safe, proud, or sleepy, and a one-sentence gentle moral about [VALUE, e.g. courage, kindness, patience].\n- Use simple vocabulary appropriate for the age, short sentences, and vivid but soothing imagery.\n\nGive the story a title.",
+    "tags": [
+      "storytelling",
+      "kids",
+      "creative writing",
+      "bedtime"
+    ],
+    "createdAt": "2026-07-27"
+  },
+  {
+    "id": "p031",
+    "title": "SQL Query Optimizer",
+    "slug": "sql-query-optimizer",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Analyze a slow SQL query and suggest concrete optimizations with an explanation of the reasoning.",
+    "prompt": "Act as a database performance engineer. I will give you a SQL query and my table schema (with row counts and existing indexes). Your job:\n\n1. Explain in plain language why the query is likely slow (e.g. full table scan, missing index, unnecessary joins, N+1 pattern).\n2. Propose a rewritten version of the query that should perform better, in a code block.\n3. Suggest any indexes that should be added, with the exact CREATE INDEX statement.\n4. Note any trade-offs of your suggestions (e.g. slower writes, more storage).\n\nDatabase: [DATABASE ENGINE, e.g. PostgreSQL 16]\nSchema:\n[PASTE SCHEMA/DDL]\n\nQuery:\n[PASTE SQL QUERY]",
+    "tags": [
+      "sql",
+      "database",
+      "performance",
+      "optimization"
+    ],
+    "createdAt": "2026-07-18"
+  },
+  {
+    "id": "p032",
+    "title": "Unit Test Generator",
+    "slug": "unit-test-generator",
+    "category": "coding",
+    "ai": [
+      "Claude",
+      "ChatGPT",
+      "GitHub Copilot"
+    ],
+    "description": "Generate a thorough set of unit tests for a function, covering edge cases you might not think of.",
+    "prompt": "Act as a QA-minded senior engineer. I will paste a function or class below written in [LANGUAGE/FRAMEWORK, e.g. TypeScript with Jest]. Write a complete unit test suite that:\n\n1. Covers the happy path with at least one clear example.\n2. Covers edge cases: empty/null inputs, boundary values, unexpected types, and large inputs if relevant.\n3. Covers error handling — verify the function throws or returns the correct error for invalid input.\n4. Uses descriptive test names that explain the scenario being tested (e.g. \"returns 0 when array is empty\").\n5. Mocks any external dependencies (API calls, database, file system) instead of hitting them for real.\n\nAfter the code, list any bugs or risky behavior you noticed in the original function while writing the tests.\n\nFunction:\n[PASTE CODE HERE]",
+    "tags": [
+      "testing",
+      "unit tests",
+      "qa",
+      "software engineering"
+    ],
+    "createdAt": "2026-07-19"
+  },
+  {
+    "id": "p033",
+    "title": "Facebook/Instagram Ad Copy Variants",
+    "slug": "facebook-instagram-ad-copy-variants",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate multiple ad copy variants for A/B testing on Meta platforms, each targeting a different angle.",
+    "prompt": "You are a direct-response copywriter for Meta ads. Product/service: \"[PRODUCT DESCRIPTION]\". Target audience: \"[AUDIENCE]\". Main benefit: \"[KEY BENEFIT]\".\n\nWrite 5 ad copy variants, each using a DIFFERENT angle:\n1. Pain point / problem-agitate-solve\n2. Social proof / testimonial style\n3. Curiosity hook / question\n4. Urgency or scarcity\n5. Direct benefit / no-fluff\n\nFor each variant, provide:\n- Primary text (under 125 words, scroll-stopping first line)\n- Headline (under 40 characters)\n- One suggested CTA button label (e.g. \"Shop Now\", \"Learn More\")\n\nAvoid clickbait or claims that can't be substantiated. Match a [TONE] tone throughout.",
+    "tags": [
+      "ads",
+      "facebook ads",
+      "copywriting",
+      "a/b testing"
+    ],
+    "createdAt": "2026-07-15"
+  },
+  {
+    "id": "p034",
+    "title": "Email Newsletter Content Planner",
+    "slug": "email-newsletter-content-planner",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Gemini"
+    ],
+    "description": "Plan a month of email newsletter content that balances value, promotion, and engagement.",
+    "prompt": "Act as an email marketing strategist. I send a weekly newsletter to \"[AUDIENCE DESCRIPTION]\" about \"[NICHE/TOPIC]\". My goal this month is [GOAL, e.g. drive signups for a webinar, increase click-through rate].\n\nCreate a 4-week content plan where each week includes:\n1. Subject line (with one A/B test alternative)\n2. Core theme/topic for that email\n3. A one-sentence angle or hook for the opening line\n4. The main CTA for that email\n5. Whether it's primarily value-first, story-first, or promotion-first (aim for no more than 1 promotion-heavy email per month)\n\nPresent as a table: Week | Subject Line | Theme | Hook | CTA | Type.",
+    "tags": [
+      "email marketing",
+      "newsletter",
+      "content planning",
+      "strategy"
+    ],
+    "createdAt": "2026-07-16"
+  },
+  {
+    "id": "p035",
+    "title": "Product Launch Announcement Kit",
+    "slug": "product-launch-announcement-kit",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate a coordinated set of launch messages for email, social, and website in one pass.",
+    "prompt": "You are a product marketing manager preparing a launch. Product: \"[PRODUCT NAME]\". What it does: \"[ONE-LINE DESCRIPTION]\". Key differentiator: \"[MAIN DIFFERENTIATOR]\". Launch date: \"[DATE]\".\n\nProduce a launch kit with:\n1. Announcement email (subject line + 150-word body, one clear CTA)\n2. Twitter/X thread (5 tweets, first tweet must hook without needing to click)\n3. LinkedIn post (under 150 words, more narrative/behind-the-scenes tone)\n4. Website banner copy (headline under 8 words + subheadline under 15 words)\n5. One-sentence press release opener\n\nKeep messaging consistent across channels but adapt tone and length to each platform's norms.",
+    "tags": [
+      "product launch",
+      "social media",
+      "email",
+      "pr"
+    ],
+    "createdAt": "2026-07-17"
+  },
+  {
+    "id": "p036",
+    "title": "Minimalist Logo Concept Prompt",
+    "slug": "minimalist-logo-concept-prompt",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate clean, minimalist logo concept images for a brand, ready to hand to a designer for refinement.",
+    "prompt": "minimalist logo design for a brand called \"[BRAND NAME]\" in the [INDUSTRY] industry, [SYMBOL/CONCEPT, e.g. abstract mountain and leaf combined], flat vector style, two-color palette of [COLOR 1] and [COLOR 2], clean geometric shapes, negative space technique, centered composition, white background, no text, no gradients, no 3D effects, professional brand identity, --style raw --v 6",
+    "tags": [
+      "logo",
+      "branding",
+      "minimalist",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "p037",
+    "title": "Product Mockup on Lifestyle Background",
+    "slug": "product-mockup-lifestyle-background",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Create a realistic lifestyle product photo mockup for e-commerce or social media use.",
+    "prompt": "professional product photography of a [PRODUCT, e.g. matte ceramic coffee mug] placed on [SURFACE/SETTING, e.g. a rustic wooden table near a sunlit window], soft natural morning light, shallow depth of field, warm cozy atmosphere, styled with [PROP DETAILS, e.g. a folded linen napkin and a few coffee beans], shot on 50mm lens, high resolution, commercial e-commerce photography, no text or watermark, --ar 4:5",
+    "tags": [
+      "product photography",
+      "mockup",
+      "e-commerce",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-11"
+  },
+  {
+    "id": "p038",
+    "title": "Consistent Character Design Sheet",
+    "slug": "consistent-character-design-sheet",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate a multi-angle character reference sheet to keep a character's appearance consistent across images.",
+    "prompt": "character design reference sheet, full body, three views (front, side profile, back), of a [CHARACTER DESCRIPTION, e.g. young female adventurer with short red hair, leather jacket, backpack], consistent proportions and outfit across all three views, neutral T-pose, plain light grey background, flat even lighting, clean line art with soft cel-shading, turnaround sheet style used by animation studios, no shadows on background, --ar 16:9",
+    "tags": [
+      "character design",
+      "concept art",
+      "reference sheet",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-12"
+  },
+  {
+    "id": "p039",
+    "title": "AI Video Generation Shot Prompt",
+    "slug": "ai-video-generation-shot-prompt",
+    "category": "video",
+    "ai": [
+      "Runway",
+      "Sora"
+    ],
+    "description": "Write a detailed cinematic prompt for AI video generators, specifying camera movement, lighting, and mood.",
+    "prompt": "cinematic shot of [SUBJECT/SCENE, e.g. a lone cyclist riding through a foggy pine forest at dawn], camera: slow tracking shot moving forward at eye level, lighting: soft diffused morning light with god rays through trees, mood: quiet and contemplative, color grade: muted cool tones with warm highlights, film grain, shallow depth of field, 4K, shot on 35mm anamorphic lens, duration 5 seconds, no text overlays, no sudden camera cuts",
+    "tags": [
+      "ai video",
+      "runway",
+      "sora",
+      "cinematography"
+    ],
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "p040",
+    "title": "Video Script Storyboard Breakdown",
+    "slug": "video-script-storyboard-breakdown",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a rough video idea into a shot-by-shot storyboard breakdown with visuals, timing, and voiceover.",
+    "prompt": "Act as a video director. Turn this idea into a shot-by-shot storyboard: \"[VIDEO IDEA/BRIEF]\". Target length: [LENGTH] seconds. Platform: [PLATFORM, e.g. Instagram Reels].\n\nFor each shot, provide a numbered row with:\n1. Timecode (e.g. 0:00-0:03)\n2. Visual description (camera angle, subject, action)\n3. On-screen text (if any)\n4. Voiceover/dialogue line (if any)\n5. Transition to next shot (cut, fade, zoom, etc.)\n\nAim for a strong visual hook in the first 3 seconds and a clear CTA in the last shot. Present as a table.",
+    "tags": [
+      "storyboard",
+      "video script",
+      "short-form video",
+      "planning"
+    ],
+    "createdAt": "2026-07-06"
+  },
+  {
+    "id": "p041",
+    "title": "YouTube Video Title & Thumbnail Ideas",
+    "slug": "youtube-title-thumbnail-ideas",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Brainstorm high-CTR YouTube titles paired with matching thumbnail text/visual concepts.",
+    "prompt": "You are a YouTube growth strategist. My video is about: \"[VIDEO TOPIC/CONTENT SUMMARY]\", aimed at \"[TARGET AUDIENCE]\".\n\nGenerate 8 title options, each following a different proven pattern (e.g. curiosity gap, number list, before/after, contrarian claim, how-to, mistake-avoidance). For each title, also suggest:\n- 3-5 words of thumbnail text that pairs with it (short, punchy, no full sentences)\n- One visual concept for the thumbnail image (what should be shown, facial expression if a person is in it, contrast elements)\n\nFlag which 2 options you'd A/B test first and why, based on click-through potential.",
+    "tags": [
+      "youtube",
+      "thumbnails",
+      "titles",
+      "growth"
+    ],
+    "createdAt": "2026-07-07"
+  },
+  {
+    "id": "p042",
+    "title": "Video Content Repurposing Plan",
+    "slug": "video-content-repurposing-plan",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn one long-form video into a full week of repurposed content across multiple platforms.",
+    "prompt": "Act as a content repurposing strategist. I have one long-form video (about [LENGTH] minutes) on the topic: \"[VIDEO TOPIC]\". Break it down into a repurposing plan that includes:\n\n1. 3-5 short-form clip ideas (15-60 seconds each) with a suggested hook line for each, for TikTok/Reels/Shorts\n2. 1 carousel post outline for LinkedIn/Instagram (5-7 slides) summarizing the key idea\n3. 1 Twitter/X thread outline (5-7 tweets) distilling the main points\n4. 1 blog post outline based on the video's content, with H2 headings\n\nFor each piece, note which specific part/timestamp of the original video it should be based on.",
+    "tags": [
+      "repurposing",
+      "content strategy",
+      "short-form video",
+      "multi-platform"
+    ],
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "p043",
+    "title": "Spaced Repetition Flashcard Generator",
+    "slug": "spaced-repetition-flashcard-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn study notes into effective question-answer flashcards optimized for spaced repetition apps.",
+    "prompt": "Act as a learning scientist who designs flashcards for spaced repetition (e.g. Anki). I will paste my notes on \"[SUBJECT/TOPIC]\" below. Create 15-20 flashcards that:\n\n1. Use the \"minimum information principle\" — each card tests ONE fact or concept, not several.\n2. Are phrased as clear questions, not fill-in-the-blank fragments.\n3. Avoid yes/no questions; require the learner to recall specific information.\n4. Include a mix of definition, application, and \"why/how\" cards, not just rote facts.\n5. Are ordered from foundational concepts to more advanced ones.\n\nFormat as: Q: ... / A: ... (one pair per line, easy to import).\n\nNotes:\n[PASTE NOTES HERE]",
+    "tags": [
+      "flashcards",
+      "spaced repetition",
+      "study techniques",
+      "memorization"
+    ],
+    "createdAt": "2026-07-01"
+  },
+  {
+    "id": "p044",
+    "title": "Practice Exam Question Generator",
+    "slug": "practice-exam-question-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate realistic practice exam questions with answer explanations from study material.",
+    "prompt": "Act as an exam writer for [SUBJECT/COURSE LEVEL, e.g. undergraduate organic chemistry]. Based on the material below, create a practice exam with:\n\n1. 5 multiple-choice questions (4 options each, one clearly correct answer, plausible distractors)\n2. 2 short-answer questions requiring a 2-3 sentence response\n3. 1 longer application/problem-solving question\n\nFor every question, after the exam section, provide the correct answer and a brief explanation of WHY it's correct and why the main distractor is tempting but wrong.\n\nMaterial:\n[PASTE STUDY MATERIAL HERE]",
+    "tags": [
+      "exam prep",
+      "practice questions",
+      "self-testing",
+      "education"
+    ],
+    "createdAt": "2026-07-02"
+  },
+  {
+    "id": "p045",
+    "title": "Feynman Technique Concept Checker",
+    "slug": "feynman-technique-concept-checker",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Explain a concept back in your own words and get feedback on gaps in understanding, Feynman-style.",
+    "prompt": "You are helping me use the Feynman Technique to check my understanding of \"[CONCEPT/TOPIC]\". I will explain the concept below in my own words, as if teaching it to a beginner.\n\nAfter I explain it, do the following:\n1. Point out any parts of my explanation that are vague, hand-wavy, or rely on jargon I didn't actually define.\n2. Identify any factual errors or misconceptions, explained clearly.\n3. Ask me 2-3 follow-up questions that a curious beginner would ask, to test if I truly understand the \"why\", not just the \"what\".\n4. Rate my explanation's clarity from 1-10 and tell me specifically what to improve.\n\nMy explanation:\n[PASTE YOUR EXPLANATION HERE]",
+    "tags": [
+      "feynman technique",
+      "active recall",
+      "self-assessment",
+      "learning"
+    ],
+    "createdAt": "2026-07-03"
+  },
+  {
+    "id": "p046",
+    "title": "Source Credibility Evaluator",
+    "slug": "source-credibility-evaluator",
+    "category": "research",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "Perplexity"
+    ],
+    "description": "Assess the credibility and potential bias of a source before citing it in research.",
+    "prompt": "Act as a research methods instructor. I will describe a source below. Evaluate its credibility using these criteria:\n\n1. Authority — who wrote/published it, and what are their relevant credentials or track record?\n2. Currency — is the information current enough for the topic, or potentially outdated?\n3. Objectivity — is there an obvious bias, funding conflict, or agenda? What evidence suggests this?\n4. Accuracy — are claims backed by evidence, citations, or data, or mostly assertions?\n5. Purpose — is it meant to inform, persuade, sell, or entertain?\n\nGive an overall credibility rating (High/Medium/Low) with a one-paragraph justification, and suggest what type of source I should look for to corroborate its key claims.\n\nSource description:\n[PASTE SOURCE DETAILS, TITLE, AUTHOR, PUBLISHER, EXCERPT]",
+    "tags": [
+      "research methods",
+      "source evaluation",
+      "critical thinking",
+      "academic"
+    ],
+    "createdAt": "2026-06-28"
+  },
+  {
+    "id": "p047",
+    "title": "Competing Hypotheses Analysis",
+    "slug": "competing-hypotheses-analysis",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Systematically compare multiple explanations for a phenomenon against available evidence.",
+    "prompt": "Act as an analyst using the Analysis of Competing Hypotheses (ACH) method. Topic/question: \"[RESEARCH QUESTION]\".\n\n1. List 3-4 plausible hypotheses that could explain this.\n2. List the key pieces of evidence or data points I have (I'll provide them, or infer commonly cited ones if I don't).\n3. Build a matrix showing whether each piece of evidence is CONSISTENT, INCONSISTENT, or NEUTRAL with each hypothesis.\n4. Identify which hypothesis has the LEAST evidence against it (not just the most supporting it — this is the key ACH insight).\n5. Note what additional evidence would most effectively distinguish between the top two hypotheses.\n\nEvidence/context I have:\n[PASTE WHAT YOU KNOW HERE]",
+    "tags": [
+      "analysis",
+      "critical thinking",
+      "hypothesis testing",
+      "research methods"
+    ],
+    "createdAt": "2026-06-29"
+  },
+  {
+    "id": "p048",
+    "title": "Research Paper Summary Extractor",
+    "slug": "research-paper-summary-extractor",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT",
+      "NotebookLM"
+    ],
+    "description": "Extract the key findings, methodology, and limitations from an academic paper in a structured format.",
+    "prompt": "Act as a research assistant summarizing an academic paper for a literature review. I will paste the abstract/text below. Extract and structure the following:\n\n1. Research question / objective (1 sentence)\n2. Methodology (study design, sample size, key methods used)\n3. Key findings (3-5 bullet points, with specific numbers/effect sizes if reported)\n4. Stated limitations (from the authors themselves)\n5. How this connects to or challenges prior research, if mentioned\n6. One sentence on why this paper might matter for [YOUR RESEARCH TOPIC/FIELD]\n\nDo not add interpretations beyond what the paper states. Flag if any section's information isn't present in the text I provide.\n\nPaper text/abstract:\n[PASTE TEXT HERE]",
+    "tags": [
+      "academic research",
+      "literature review",
+      "summarization",
+      "papers"
+    ],
+    "createdAt": "2026-06-30"
+  },
+  {
+    "id": "p049",
+    "title": "Eisenhower Matrix Task Sorter",
+    "slug": "eisenhower-matrix-task-sorter",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Sort a messy to-do list into the Eisenhower urgent/important matrix with clear next actions.",
+    "prompt": "Act as a productivity coach. Below is my raw, unsorted to-do list. Organize it using the Eisenhower Matrix:\n\n1. Urgent & Important — Do first\n2. Important, Not Urgent — Schedule\n3. Urgent, Not Important — Delegate (suggest who, if unclear ask what type of person)\n4. Not Urgent, Not Important — Eliminate or defer\n\nFor each task, briefly explain WHY you placed it in that quadrant. Then give me a suggested order to tackle today's \"Do first\" items, considering realistic time estimates.\n\nMy task list:\n[PASTE TASK LIST HERE]",
+    "tags": [
+      "time management",
+      "prioritization",
+      "eisenhower matrix",
+      "task management"
+    ],
+    "createdAt": "2026-06-25"
+  },
+  {
+    "id": "p050",
+    "title": "Deep Work Session Planner",
+    "slug": "deep-work-session-planner",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Design a focused deep work block for a specific task, including a distraction-proofing checklist.",
+    "prompt": "Act as a deep work coach following Cal Newport's principles. I need to make progress on: \"[TASK/PROJECT]\" in a [DURATION, e.g. 90-minute] focused session.\n\nGive me:\n1. A clear, specific definition of \"done\" for this session (what output should exist by the end).\n2. A breakdown of the session into 2-3 sub-phases with rough time allocations (e.g. 15 min planning, 60 min execution, 15 min review).\n3. A pre-session checklist to eliminate distractions (notifications, environment, tools needed).\n4. One \"if I get stuck\" fallback action so I don't lose momentum.\n5. A single sentence I can tell myself as a focus mantra for this session.",
+    "tags": [
+      "deep work",
+      "focus",
+      "time blocking",
+      "productivity"
+    ],
+    "createdAt": "2026-06-26"
+  },
+  {
+    "id": "p051",
+    "title": "Weekly Review & Reset Template",
+    "slug": "weekly-review-reset-template",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Run a structured weekly review to close out the past week and plan the next one with clarity.",
+    "prompt": "Act as a productivity coach guiding me through a weekly review (GTD-style). Ask me to reflect using this structure, then help me organize my answers into a clean plan:\n\n1. Wins — what got done or went well this week?\n2. Open loops — what's unfinished, half-started, or nagging at me?\n3. Lessons — what would I do differently if I redid this week?\n4. Next week's top 3 priorities — must be specific and achievable, not vague goals.\n5. One thing to stop doing or delegate.\n\nI'll answer each point below; help me turn my raw answers into a concise, actionable weekly plan with priorities ranked.\n\nMy raw notes:\n[PASTE YOUR NOTES/ANSWERS HERE]",
+    "tags": [
+      "weekly review",
+      "planning",
+      "reflection",
+      "gtd"
+    ],
+    "createdAt": "2026-06-27"
+  },
+  {
+    "id": "p052",
+    "title": "SWOT Analysis Builder",
+    "slug": "swot-analysis-builder",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Build a structured, specific SWOT analysis for a business, product, or strategic decision.",
+    "prompt": "Act as a business strategy consultant. Conduct a SWOT analysis for: \"[COMPANY/PRODUCT/DECISION]\" in the context of \"[MARKET/INDUSTRY]\".\n\nFor each quadrant, provide 4-5 specific, non-generic points (avoid vague statements like \"strong brand\" — instead say what specifically makes the brand strong and why it matters here):\n\n1. Strengths (internal, controllable advantages)\n2. Weaknesses (internal, controllable disadvantages)\n3. Opportunities (external factors that could be leveraged)\n4. Threats (external factors that pose risk)\n\nAfter the matrix, give 3 strategic recommendations that specifically pair a strength with an opportunity, or address a weakness that makes a threat more dangerous.\n\nContext/details:\n[PASTE RELEVANT BUSINESS CONTEXT HERE]",
+    "tags": [
+      "swot analysis",
+      "strategy",
+      "business planning",
+      "consulting"
+    ],
+    "createdAt": "2026-06-20"
+  },
+  {
+    "id": "p053",
+    "title": "Pricing Strategy Advisor",
+    "slug": "pricing-strategy-advisor",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Get a structured analysis of pricing options for a product, weighing models and psychological factors.",
+    "prompt": "Act as a pricing strategy consultant. I'm pricing \"[PRODUCT/SERVICE]\" for \"[TARGET CUSTOMER]\" in the \"[MARKET/INDUSTRY]\" space. My costs are approximately [COST INFO], and competitors charge around [COMPETITOR PRICE RANGE, if known].\n\nAnalyze:\n1. Which pricing model fits best (flat-rate, tiered, usage-based, freemium, per-seat) and why, given my product type.\n2. 3 specific price points to consider, each with the reasoning and likely customer perception behind it.\n3. Psychological pricing tactics that would be appropriate here (e.g. charm pricing, anchoring, decoy tier) and which to avoid for this audience.\n4. One risk of pricing too low and one risk of pricing too high, specific to my situation.\n\nGive a final recommended starting price with a one-paragraph justification.",
+    "tags": [
+      "pricing",
+      "strategy",
+      "business model",
+      "monetization"
+    ],
+    "createdAt": "2026-06-21"
+  },
+  {
+    "id": "p054",
+    "title": "Investor Update Email Writer",
+    "slug": "investor-update-email-writer",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Draft a concise, transparent monthly investor update that builds trust and highlights key metrics.",
+    "prompt": "Act as a startup founder writing a monthly investor update. Company: \"[COMPANY NAME]\". This month's highlights: [KEY METRICS/WINS, e.g. revenue, growth %, new hires]. Challenges: [CHALLENGES/RISKS]. Asks: [WHAT YOU NEED HELP WITH, e.g. intros, hires].\n\nWrite an investor update email that:\n1. Opens with a one-line TL;DR of the month (good or bad — be honest, not spun).\n2. Section \"Metrics\" — key numbers in a short scannable list, with month-over-month comparison if provided.\n3. Section \"Wins\" — 2-3 bullet points.\n4. Section \"Challenges\" — 1-2 bullet points, stated honestly, with what you're doing about them.\n5. Section \"Asks\" — specific, concrete requests (not vague \"any help appreciated\").\n\nKeep the total length under 300 words. Tone: direct, confident, and honest — avoid hype language.",
+    "tags": [
+      "investor relations",
+      "startup",
+      "email",
+      "fundraising"
+    ],
+    "createdAt": "2026-06-22"
+  },
+  {
+    "id": "p055",
+    "title": "Cover Letter Tailored to Job Posting",
+    "slug": "cover-letter-tailored-job-posting",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a targeted cover letter that connects your background directly to the specific job requirements.",
+    "prompt": "Act as a career coach and professional writer. I will give you a job posting and my background. Write a cover letter that:\n\n1. Opens with a specific, non-generic hook connected to the company or role (not \"I am writing to apply for...\").\n2. Maps 2-3 of my most relevant experiences directly to 2-3 specific requirements in the posting, using concrete numbers/results where possible.\n3. Shows genuine understanding of what the company does and why I'd fit their team.\n4. Closes with a confident, specific call to action (not \"I look forward to hearing from you\").\n5. Stays under 300 words, professional but not stiff tone.\n\nJob posting:\n[PASTE JOB POSTING HERE]\n\nMy background:\n[PASTE RESUME SUMMARY / KEY EXPERIENCE HERE]",
+    "tags": [
+      "cover letter",
+      "job application",
+      "career",
+      "resume"
+    ],
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "p056",
+    "title": "Wedding Toast / Speech Writer",
+    "slug": "wedding-toast-speech-writer",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Craft a heartfelt, well-paced wedding toast that balances humor, sincerity, and a clear structure.",
+    "prompt": "Act as a speechwriter specializing in wedding toasts. I am the [RELATIONSHIP, e.g. maid of honor, best man, father of the bride] giving a toast for [NAMES OF COUPLE]. Length: about [DURATION, e.g. 2-3 minutes spoken].\n\nUsing these details I'll provide — how I know them, a specific memory or story, what I admire about their relationship — write a toast that:\n1. Opens with a light, engaging hook (a short story or a joke, not \"For those who don't know me\").\n2. Includes one specific, vivid anecdote that shows (not tells) their character.\n3. Has a genuine, warm moment in the middle without becoming overly sentimental or long-winded.\n4. Ends with a clear toast line and a well-wishes closing that's easy to deliver.\n\nDetails to use:\n[PASTE RELATIONSHIP DETAILS, MEMORIES, INSIDE JOKES HERE]",
+    "tags": [
+      "speech writing",
+      "wedding",
+      "toast",
+      "public speaking"
+    ],
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "p057",
+    "title": "E-commerce Product Description Writer",
+    "slug": "ecommerce-product-description-writer",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn basic product specs into a persuasive, benefit-driven product listing description.",
+    "prompt": "Act as an e-commerce copywriter. Product: \"[PRODUCT NAME]\". Raw specs/features: [LIST FEATURES/SPECS]. Target customer: \"[TARGET CUSTOMER]\".\n\nWrite a product description with:\n1. A short, punchy headline (under 10 words) that leads with the main benefit, not the feature.\n2. A 2-3 sentence hook paragraph that speaks to the customer's problem or desire.\n3. A bullet list (5-6 items) converting each raw feature into a customer benefit (\"X so that you can Y\").\n4. A short closing line addressing a common objection or reassurance (e.g. return policy, durability).\n\nTone: [TONE, e.g. premium and minimal / fun and casual]. Avoid generic superlatives like \"amazing\" or \"best ever\" without backing them up.",
+    "tags": [
+      "e-commerce",
+      "product description",
+      "copywriting",
+      "conversion"
+    ],
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "p058",
+    "title": "Press Release Draft Generator",
+    "slug": "press-release-draft-generator",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a properly formatted press release announcing news, following standard journalistic structure.",
+    "prompt": "Act as a PR professional. Write a press release for: \"[ANNOUNCEMENT, e.g. company funding round, product launch, partnership, executive hire]\".\n\nFollow standard press release structure:\n1. Headline — clear, factual, under 15 words, no hype adjectives.\n2. Dateline — [CITY, DATE].\n3. Lead paragraph — answers who/what/when/where/why in 2-3 sentences.\n4. Body — 2-3 paragraphs with supporting details and context.\n5. One quote from [SPOKESPERSON NAME/TITLE] that adds perspective, not just repeats the headline.\n6. Boilerplate paragraph about the company (I'll provide details).\n7. Media contact placeholder.\n\nKeep the tone factual and neutral — this is journalism, not an ad. Avoid words like \"revolutionary\" or \"game-changing\" unless directly quoting someone.\n\nDetails:\n[PASTE KEY FACTS, QUOTE SOURCE, COMPANY BOILERPLATE INFO]",
+    "tags": [
+      "press release",
+      "pr",
+      "media",
+      "announcement"
+    ],
+    "createdAt": "2026-08-02"
+  },
+  {
+    "id": "p059",
+    "title": "Short Story Plot Generator",
+    "slug": "short-story-plot-generator",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Brainstorm original short story plots with structure, conflict, and a satisfying arc in a chosen genre.",
+    "prompt": "Act as a fiction writing mentor. Generate 3 original short story plot ideas in the [GENRE, e.g. sci-fi, mystery, literary fiction] genre, loosely inspired by the theme: \"[THEME/PROMPT WORD]\".\n\nFor each idea, provide:\n1. A one-sentence logline.\n2. The protagonist (name, one defining trait, one flaw).\n3. The central conflict (internal and external).\n4. A three-beat structure: inciting incident, midpoint turn, resolution (2-3 sentences total).\n5. A unique twist or angle that avoids the most obvious/cliché version of this premise.\n\nAvoid generic tropes unless subverted. Keep each idea distinct in tone and structure from the other two.",
+    "tags": [
+      "fiction",
+      "creative writing",
+      "plot",
+      "storytelling"
+    ],
+    "createdAt": "2026-08-02"
+  },
+  {
+    "id": "p060",
+    "title": "Podcast Show Notes Writer",
+    "slug": "podcast-show-notes-writer",
+    "category": "writing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a podcast episode transcript or summary into polished show notes with timestamps and highlights.",
+    "prompt": "Act as a podcast producer writing show notes. I'll paste a transcript or rough summary of an episode about \"[EPISODE TOPIC]\" with guest \"[GUEST NAME/TITLE, if any]\" below.\n\nWrite show notes including:\n1. A 2-3 sentence episode summary/hook for the top of the page.\n2. 5-8 key discussion points with approximate timestamps (use placeholders like [MM:SS] if I don't provide exact times).\n3. 3 standout quotes from the episode (short, under 25 words each).\n4. Any resources, books, tools, or links mentioned (list format).\n5. A short guest bio paragraph (if applicable).\n\nKeep the tone conversational and scannable — most people skim show notes, not read them fully.\n\nTranscript/summary:\n[PASTE TRANSCRIPT OR SUMMARY HERE]",
+    "tags": [
+      "podcast",
+      "show notes",
+      "content repurposing",
+      "writing"
+    ],
+    "createdAt": "2026-08-02"
+  },
+  {
+    "id": "p061",
+    "title": "Git Commit Message Generator",
+    "slug": "git-commit-message-generator",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Turn a code diff or change description into a clear, conventional-commit-style commit message.",
+    "prompt": "Act as a senior engineer who writes disciplined commit messages following the Conventional Commits spec. I will paste a diff or describe my change below.\n\nGenerate:\n1. A commit type + short summary line (max 50 chars), using type prefixes like feat/fix/refactor/docs/test/chore.\n2. A blank line, then a body (2-4 bullet points) explaining WHAT changed and WHY, not just restating the diff.\n3. A \"BREAKING CHANGE:\" footer if this change breaks backward compatibility (based on what I describe).\n\nDo not use vague messages like \"update code\" or \"fix bug\". Be specific about the actual behavior changed.\n\nChange description / diff:\n[PASTE DIFF OR DESCRIPTION HERE]",
+    "tags": [
+      "git",
+      "commit messages",
+      "version control",
+      "conventional commits"
+    ],
+    "createdAt": "2026-08-03"
+  },
+  {
+    "id": "p062",
+    "title": "REST API Endpoint Design Assistant",
+    "slug": "rest-api-endpoint-design-assistant",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Design well-structured REST API endpoints for a feature, following naming and status-code conventions.",
+    "prompt": "Act as an API design expert. I need to design REST endpoints for this feature: \"[FEATURE DESCRIPTION, e.g. managing a user's saved playlists]\". Framework/language: [LANGUAGE/FRAMEWORK, e.g. Node.js + Express].\n\nFor each endpoint needed (CRUD as applicable), provide:\n1. HTTP method + URL path (following REST resource-naming conventions, plural nouns, proper nesting).\n2. Request body shape (JSON example) if applicable.\n3. Success response shape + status code.\n4. Key error cases with appropriate status codes (400, 401, 404, 409, etc.) and example error body.\n5. Any query parameters needed (pagination, filtering, sorting).\n\nPresent as a clear list grouped by resource. Flag any design decisions where there's a reasonable alternative approach.",
+    "tags": [
+      "api design",
+      "rest api",
+      "backend",
+      "software architecture"
+    ],
+    "createdAt": "2026-08-03"
+  },
+  {
+    "id": "p063",
+    "title": "Dockerfile Generator & Explainer",
+    "slug": "dockerfile-generator-explainer",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Generate a production-ready Dockerfile for an app, with each instruction explained line by line.",
+    "prompt": "Act as a DevOps engineer. Write a production-ready Dockerfile for a [LANGUAGE/FRAMEWORK, e.g. Node.js Express API / Python FastAPI app]. Requirements:\n\n1. Use multi-stage build to keep the final image small.\n2. Use a specific, pinned base image version (not \"latest\").\n3. Install only production dependencies in the final stage.\n4. Run as a non-root user for security.\n5. Include a HEALTHCHECK instruction if relevant.\n6. Set appropriate WORKDIR, EXPOSE, and CMD/ENTRYPOINT.\n\nAfter the Dockerfile, explain each major instruction in one sentence, and note any assumptions I need to adjust (e.g. entry file name, port number).\n\nMy app details:\n[DESCRIBE PROJECT STRUCTURE, ENTRY FILE, PORT, DEPENDENCIES]",
+    "tags": [
+      "docker",
+      "devops",
+      "containers",
+      "deployment"
+    ],
+    "createdAt": "2026-08-03"
+  },
+  {
+    "id": "p064",
+    "title": "Legacy Code Explainer",
+    "slug": "legacy-code-explainer",
+    "category": "coding",
+    "ai": [
+      "Claude",
+      "ChatGPT",
+      "GitHub Copilot"
+    ],
+    "description": "Understand unfamiliar or undocumented legacy code quickly with a plain-language walkthrough.",
+    "prompt": "Act as a senior engineer helping me understand unfamiliar legacy code. I will paste a code file/snippet below, written in [LANGUAGE]. Explain it as follows:\n\n1. One-paragraph high-level summary: what does this code do and why might it exist?\n2. Walk through the logic in plain language, section by section (not line-by-line unless a section is especially tricky).\n3. Flag anything that looks fragile, outdated, undocumented \"magic\", or potentially buggy.\n4. Identify any external dependencies, side effects, or global state this code relies on.\n5. Suggest, in one paragraph, how I'd safely start refactoring this if needed (what to test first).\n\nCode:\n[PASTE CODE HERE]",
+    "tags": [
+      "legacy code",
+      "code review",
+      "refactoring",
+      "documentation"
+    ],
+    "createdAt": "2026-08-04"
+  },
+  {
+    "id": "p065",
+    "title": "Error / Stack Trace Debugger",
+    "slug": "error-stack-trace-debugger",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Diagnose the root cause of an error message or stack trace and get a concrete fix, not just a guess.",
+    "prompt": "Act as a debugging expert. I have an error I can't resolve. Help me systematically:\n\n1. Explain in plain language what this error actually means (not just the literal message).\n2. List the 2-3 most likely root causes, ranked by probability given my context.\n3. For the most likely cause, give a specific fix with a code example.\n4. Suggest one diagnostic step I can take (a log statement, a debugger breakpoint, a command) to confirm the root cause before applying the fix.\n5. Note if this is a common/known issue with the library or framework I'm using, and link the type of resource I should search for.\n\nLanguage/framework: [LANGUAGE/FRAMEWORK + VERSION]\nError/stack trace:\n[PASTE FULL ERROR/STACK TRACE HERE]\n\nRelevant code:\n[PASTE THE CODE THAT TRIGGERS THE ERROR]",
+    "tags": [
+      "debugging",
+      "error handling",
+      "troubleshooting",
+      "stack trace"
+    ],
+    "createdAt": "2026-08-04"
+  },
+  {
+    "id": "p066",
+    "title": "CI/CD Pipeline YAML Generator",
+    "slug": "cicd-pipeline-yaml-generator",
+    "category": "coding",
+    "ai": [
+      "ChatGPT",
+      "Claude",
+      "GitHub Copilot"
+    ],
+    "description": "Generate a working CI/CD pipeline configuration for building, testing, and deploying an app.",
+    "prompt": "Act as a DevOps engineer. Write a CI/CD pipeline configuration for [PLATFORM, e.g. GitHub Actions / GitLab CI] for a project with these requirements:\n\n- Language/stack: [LANGUAGE/FRAMEWORK]\n- Triggers: run on [TRIGGER, e.g. push to main and pull requests]\n- Steps needed: install dependencies, run linter, run tests, build, and [DEPLOY TARGET, e.g. deploy to Vercel / push Docker image]\n- Use caching for dependencies to speed up runs.\n- Fail fast if lint or tests fail (don't proceed to deploy).\n\nOutput the complete YAML file, then add a short comment above each major job/step group explaining its purpose. Flag any secrets/environment variables I'll need to configure in the platform's settings (name them, don't invent values).",
+    "tags": [
+      "ci/cd",
+      "github actions",
+      "devops",
+      "automation"
+    ],
+    "createdAt": "2026-08-04"
+  },
+  {
+    "id": "p067",
+    "title": "Instagram Caption & Hashtag Generator",
+    "slug": "instagram-caption-hashtag-generator",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write engaging Instagram captions paired with a relevant, non-spammy hashtag set.",
+    "prompt": "Act as a social media copywriter for Instagram. Post topic/photo description: \"[POST TOPIC/DESCRIPTION]\". Brand/account voice: \"[BRAND VOICE, e.g. playful and warm]\". Goal: [GOAL, e.g. drive saves, drive comments, drive link clicks].\n\nWrite 3 caption variants:\n1. Short and punchy (under 50 words) with a strong hook first line (visible before \"more\").\n2. Storytelling style (100-150 words) with a personal or narrative angle.\n3. List/value-driven style (e.g. \"3 things I wish I knew about X\").\n\nFor each, include a matching CTA suited to the goal. Then provide one set of 15-20 hashtags mixing broad, niche, and branded tags — no banned/overused spam tags, and no more than 3 hashtags with over 1M posts.",
+    "tags": [
+      "instagram",
+      "social media",
+      "captions",
+      "hashtags"
+    ],
+    "createdAt": "2026-07-28"
+  },
+  {
+    "id": "p068",
+    "title": "Landing Page Copy Generator",
+    "slug": "landing-page-copy-generator",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write complete, conversion-focused landing page copy from hero section to final CTA.",
+    "prompt": "Act as a conversion copywriter. Write landing page copy for: \"[PRODUCT/SERVICE]\". Target audience: \"[AUDIENCE]\". Main value proposition: \"[VALUE PROP]\". Primary CTA goal: [GOAL, e.g. free trial signup].\n\nStructure the copy in sections:\n1. Hero — headline (under 10 words), subheadline (under 20 words), CTA button text.\n2. Problem/agitation — 2-3 sentences naming the pain point clearly.\n3. Solution — 3 benefit-driven feature blocks (headline + 1-2 sentence description each).\n4. Social proof placeholder — describe what type of proof would work best here (testimonial, logo bar, stat).\n5. Objection-handling FAQ — 3 likely objections with short reassuring answers.\n6. Final CTA section — headline + button text, with urgency/reassurance framing.\n\nTone: [TONE]. Avoid vague claims — tie benefits to specific outcomes.",
+    "tags": [
+      "landing page",
+      "copywriting",
+      "conversion",
+      "cro"
+    ],
+    "createdAt": "2026-07-29"
+  },
+  {
+    "id": "p069",
+    "title": "Buyer Persona Builder",
+    "slug": "buyer-persona-builder",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Build a detailed marketing buyer persona from basic customer data to guide content and campaigns.",
+    "prompt": "Act as a market research strategist. Based on the customer information below, build a detailed buyer persona for marketing purposes:\n\n1. Persona name + short tagline (e.g. \"Busy Brenda, the time-strapped manager\")\n2. Demographics (age range, role/occupation, general context) — keep this realistic, not stereotyped\n3. Goals — what are they trying to achieve related to [PRODUCT CATEGORY]?\n4. Pain points/frustrations — what's currently blocking them?\n5. Where they spend time researching solutions (channels, communities, content types)\n6. Objections they're likely to have before buying\n7. The single message/angle most likely to resonate with them\n\nCustomer info/notes:\n[PASTE CUSTOMER DATA, SURVEY RESULTS, OR OBSERVATIONS HERE]",
+    "tags": [
+      "buyer persona",
+      "market research",
+      "audience",
+      "strategy"
+    ],
+    "createdAt": "2026-07-30"
+  },
+  {
+    "id": "p070",
+    "title": "Influencer Outreach Message Writer",
+    "slug": "influencer-outreach-message-writer",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Draft a personalized, non-spammy outreach message to pitch a collaboration to a content creator.",
+    "prompt": "Act as an influencer marketing manager. Write an outreach DM/email to a content creator to propose a collaboration.\n\nCreator: [CREATOR NAME/NICHE, e.g. a fitness micro-influencer]\nWhat I noticed about their content: [SPECIFIC DETAIL, e.g. a recent post or recurring theme]\nMy brand: [BRAND NAME + WHAT IT DOES]\nCollab idea: [PROPOSED COLLAB TYPE, e.g. sponsored post, affiliate, product gifting]\n\nRequirements:\n1. Open with something specific and genuine about their content (not \"I love your page!\").\n2. Briefly explain why the fit makes sense for THEIR audience, not just why it's good for my brand.\n3. Propose the collab clearly with one concrete next step (a call, more details, a sample).\n4. Keep it under 120 words, casual but professional, no corporate jargon.\n\nGive 2 versions: one for Instagram DM (very short) and one for email (slightly longer with subject line).",
+    "tags": [
+      "influencer marketing",
+      "outreach",
+      "collaboration",
+      "email"
+    ],
+    "createdAt": "2026-07-31"
+  },
+  {
+    "id": "p071",
+    "title": "Google Search Ads Copy Generator",
+    "slug": "google-search-ads-copy-generator",
+    "category": "marketing",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate Google Ads-compliant headlines and descriptions optimized for search intent and character limits.",
+    "prompt": "Act as a Google Ads specialist. Campaign for: \"[PRODUCT/SERVICE]\". Target keyword theme: \"[KEYWORD/SEARCH INTENT]\". Main offer/USP: \"[OFFER]\".\n\nGenerate:\n1. 10 headlines, each ≤30 characters, including at least 3 that reference the keyword directly, at least 2 with numbers/specifics, and at least 2 with a clear CTA.\n2. 4 descriptions, each ≤90 characters, each highlighting a different benefit or angle.\n3. 2 suggested display paths (≤15 characters each) that reinforce relevance.\n\nEnsure no headline/description exceeds the character limit — count characters and flag if any do. Avoid superlatives without proof (\"best\", \"#1\") unless [OFFER] specifically supports it.",
+    "tags": [
+      "google ads",
+      "ppc",
+      "search ads",
+      "copywriting"
+    ],
+    "createdAt": "2026-08-01"
+  },
+  {
+    "id": "p072",
+    "title": "Fantasy Landscape Concept Art",
+    "slug": "fantasy-landscape-concept-art",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate epic fantasy environment concept art with strong mood, lighting, and sense of scale.",
+    "prompt": "epic fantasy landscape concept art of [SCENE, e.g. a floating city above a stormy ocean, connected by glowing bridges], dramatic golden hour lighting, sense of massive scale with tiny figures for reference, painterly digital art style inspired by concept art for film, rich atmospheric perspective, fog and light rays, highly detailed environment, muted color palette with one vivid accent color, wide establishing shot composition, no characters in close-up, --ar 16:9 --style raw",
+    "tags": [
+      "concept art",
+      "fantasy",
+      "landscape",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-13"
+  },
+  {
+    "id": "p073",
+    "title": "Food Photography Prompt",
+    "slug": "food-photography-prompt",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Create appetizing, magazine-quality food photography images for menus, blogs, or social media.",
+    "prompt": "professional food photography of [DISH, e.g. a rustic margherita pizza fresh out of the oven], overhead flat-lay composition, natural window light from the side, styled on a dark rustic wooden table with scattered fresh basil leaves and a linen napkin, steam rising subtly, rich saturated colors, shallow depth of field with background softly blurred, shot on a macro lens, editorial food magazine style, no text or watermark, --ar 1:1",
+    "tags": [
+      "food photography",
+      "flat lay",
+      "editorial",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-14"
+  },
+  {
+    "id": "p074",
+    "title": "Isometric Icon Set Generator",
+    "slug": "isometric-icon-set-generator",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate a consistent set of isometric-style icons for apps, websites, or presentations.",
+    "prompt": "isometric icon of [OBJECT/CONCEPT, e.g. a cloud server with a padlock representing secure cloud storage], clean 3D isometric illustration style, soft pastel color palette of [COLOR PALETTE], subtle drop shadow, rounded edges, consistent 30-degree isometric angle, centered on a plain white background, vector-art aesthetic, no text, no gradients other than subtle shading, app UI icon style, --ar 1:1",
+    "tags": [
+      "icon design",
+      "isometric",
+      "ui design",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-15"
+  },
+  {
+    "id": "p075",
+    "title": "Retro Vintage Poster Style",
+    "slug": "retro-vintage-poster-style",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Generate a retro travel or event poster with authentic vintage design aesthetics and typography feel.",
+    "prompt": "vintage travel poster for [DESTINATION/EVENT, e.g. a coastal town called Marlow Bay], 1960s mid-century travel poster art style, bold flat color blocks, limited color palette of [2-3 COLORS], stylized sun/landscape illustration, subtle grain and paper texture, symmetrical composition with space reserved at the bottom for a title, screen-print aesthetic, no modern elements, no photorealism, --ar 2:3",
+    "tags": [
+      "poster design",
+      "vintage",
+      "retro",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-16"
+  },
+  {
+    "id": "p076",
+    "title": "Interior Design Room Render Concept",
+    "slug": "interior-design-room-render-concept",
+    "category": "image",
+    "ai": [
+      "Midjourney",
+      "DALL-E"
+    ],
+    "description": "Visualize an interior design concept for a room, useful for mood boards and client presentations.",
+    "prompt": "interior design render of a [ROOM TYPE, e.g. small living room] in [STYLE, e.g. Scandinavian minimalist] style, warm natural light from a large window, color palette of [COLOR PALETTE, e.g. soft beige, sage green, warm oak wood], furnished with [KEY FURNITURE PIECES], realistic textures on textiles and wood, photorealistic architectural visualization, wide-angle interior shot, no people, high-end interior design magazine quality, --ar 3:2",
+    "tags": [
+      "interior design",
+      "render",
+      "architecture",
+      "midjourney"
+    ],
+    "createdAt": "2026-07-17"
+  },
+  {
+    "id": "p077",
+    "title": "Podcast Episode Intro Script",
+    "slug": "podcast-episode-intro-script",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a short, engaging intro script that hooks listeners in the first 30 seconds of an episode.",
+    "prompt": "Act as a podcast scriptwriter. Write a 30-45 second spoken intro for an episode about \"[EPISODE TOPIC]\", featuring guest \"[GUEST NAME/TITLE, if any]\". Podcast name: \"[PODCAST NAME]\".\n\nThe intro should:\n1. Open with a compelling hook — a question, a bold claim, or a teaser of the episode's most interesting moment (not \"Welcome back to the show\").\n2. Briefly state what listeners will get out of this episode (1-2 concrete takeaways).\n3. Introduce the guest with one specific, interesting credential (not a full bio).\n4. End with a natural transition line into the conversation.\n\nWrite it exactly as it should be spoken, conversational tone, short sentences suited for reading aloud.",
+    "tags": [
+      "podcast",
+      "script",
+      "intro",
+      "audio"
+    ],
+    "createdAt": "2026-08-05"
+  },
+  {
+    "id": "p078",
+    "title": "Explainer Video Voiceover Script",
+    "slug": "explainer-video-voiceover-script",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a tight, benefit-focused voiceover script for a 60-90 second product explainer video.",
+    "prompt": "Act as an explainer video scriptwriter. Product: \"[PRODUCT/SERVICE]\". Target viewer: \"[TARGET AUDIENCE]\". Video length target: [LENGTH, e.g. 75 seconds] (roughly 150 words per minute of spoken narration).\n\nWrite a voiceover script structured as:\n1. Hook (0-5s) — names the viewer's problem in one punchy line.\n2. Problem expansion (5-15s) — makes the pain point relatable/specific.\n3. Solution intro (15-45s) — introduces the product and how it solves the problem, 2-3 key features tied to benefits.\n4. Proof/differentiation (45-60s) — why this over alternatives, one credibility signal.\n5. CTA (final 10-15s) — clear, specific next step.\n\nInclude a [VISUAL: ...] cue in brackets after each section suggesting what should be on screen. Keep sentences short and speakable.",
+    "tags": [
+      "explainer video",
+      "voiceover",
+      "script",
+      "video marketing"
+    ],
+    "createdAt": "2026-08-05"
+  },
+  {
+    "id": "p079",
+    "title": "30-Second Video Ad Script",
+    "slug": "30-second-video-ad-script",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a punchy 30-second video ad script optimized for social feed attention spans.",
+    "prompt": "Act as a performance video ad copywriter. Product: \"[PRODUCT/SERVICE]\". Platform: [PLATFORM, e.g. TikTok/Instagram Reels feed ad]. Main offer/hook angle: \"[ANGLE, e.g. pain point, before/after, UGC testimonial style]\".\n\nWrite a 30-second script broken into 4 beats:\n1. 0-3s: Pattern-interrupt hook (visual + line) that stops the scroll — must work with sound off too (describe on-screen text).\n2. 3-12s: Problem/desire setup in the viewer's own words/voice style.\n3. 12-22s: Product as the solution, 1-2 concrete proof points (not generic claims).\n4. 22-30s: Clear CTA with urgency or simple next step.\n\nFor each beat, include: spoken line, on-screen text overlay, and a one-line visual direction. Keep the tone native to [PLATFORM], not like a traditional TV ad.",
+    "tags": [
+      "video ads",
+      "tiktok",
+      "social ads",
+      "script"
+    ],
+    "createdAt": "2026-08-06"
+  },
+  {
+    "id": "p080",
+    "title": "B-Roll Shot List Generator",
+    "slug": "b-roll-shot-list-generator",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate a practical shot list of B-roll footage to capture for a video project before filming.",
+    "prompt": "Act as a video producer preparing a shoot. Video topic: \"[VIDEO TOPIC/PROJECT]\". Setting/location: \"[LOCATION TYPE, e.g. a coffee roastery]\". Video purpose: [PURPOSE, e.g. brand story, product ad, documentary segment].\n\nGenerate a B-roll shot list of 15-20 shots, organized by category (e.g. establishing shots, close-up details, action/process shots, people/hands, texture/ambiance). For each shot, note:\n1. Brief shot description\n2. Suggested framing (wide/medium/close-up/macro)\n3. Suggested camera movement (static, slow pan, handheld, slider) if relevant\n\nPrioritize shots that would cut well with a voiceover narration, and flag which 3-4 shots are \"must-have\" if time is limited.",
+    "tags": [
+      "b-roll",
+      "shot list",
+      "video production",
+      "filmmaking"
+    ],
+    "createdAt": "2026-08-06"
+  },
+  {
+    "id": "p081",
+    "title": "Live Stream Outline & Talking Points",
+    "slug": "live-stream-outline-talking-points",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Plan a structured live stream with segments, talking points, and audience engagement moments.",
+    "prompt": "Act as a livestream producer. I'm hosting a [PLATFORM, e.g. YouTube/Twitch] live stream about \"[STREAM TOPIC]\", planned length: [DURATION].\n\nCreate an outline with:\n1. Opening segment (first 5 min) — welcome hook, what viewers will get, housekeeping (like/subscribe reminder placed naturally, not forced).\n2. 3-4 main content segments, each with a topic, key talking points (bullet form), and one interactive moment (poll, Q&A prompt, chat challenge) to keep engagement up.\n3. A mid-stream re-engagement moment for viewers who just joined (quick recap + hook for what's coming).\n4. Closing segment — key recap, clear CTA, teaser for next stream/content.\n\nFlag natural points to check chat/comments so I don't lose the live, conversational feel.",
+    "tags": [
+      "livestream",
+      "streaming",
+      "content planning",
+      "engagement"
+    ],
+    "createdAt": "2026-08-07"
+  },
+  {
+    "id": "p082",
+    "title": "Video SEO Description & Tags Generator",
+    "slug": "video-seo-description-tags-generator",
+    "category": "video",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write an SEO-optimized YouTube description and tag list to improve discoverability.",
+    "prompt": "Act as a YouTube SEO specialist. Video title: \"[VIDEO TITLE]\". Video summary: \"[WHAT THE VIDEO COVERS]\". Target keyword(s): \"[MAIN KEYWORD(S)]\".\n\nWrite:\n1. A YouTube description (150-300 words) that: naturally includes the main keyword in the first 1-2 sentences, summarizes the video's value, includes 2-3 relevant secondary keywords naturally (no keyword stuffing), and ends with a CTA + placeholder timestamps section.\n2. A list of 15-20 relevant tags, ordered from most to least important, mixing broad and specific/long-tail tags.\n3. 3 alternative title options optimized for search + click-through, if the original title could be improved.\n\nAvoid clickbait that misrepresents the content.",
+    "tags": [
+      "youtube seo",
+      "video description",
+      "tags",
+      "discoverability"
+    ],
+    "createdAt": "2026-08-07"
+  },
+  {
+    "id": "p083",
+    "title": "Cornell Notes Converter",
+    "slug": "cornell-notes-converter",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Convert messy lecture notes or a textbook chapter into the structured Cornell note-taking format.",
+    "prompt": "Act as a study skills coach. Convert the raw notes/text below into the Cornell Notes format:\n\n1. **Cue column** — key questions or keywords that would prompt recall of each main idea (write these as if testing myself later).\n2. **Notes column** — the main content organized into clear, concise bullet points (not full paragraphs), grouped under the relevant cue.\n3. **Summary section** — a 3-4 sentence summary at the bottom capturing the core takeaway of the whole material, in my own simplified words.\n\nKeep the notes column bullet points short (under 15 words each) and focused on concepts I'd actually need to recall, not filler detail.\n\nRaw notes/text:\n[PASTE NOTES OR TEXTBOOK CONTENT HERE]",
+    "tags": [
+      "cornell notes",
+      "note taking",
+      "study techniques",
+      "organization"
+    ],
+    "createdAt": "2026-07-04"
+  },
+  {
+    "id": "p084",
+    "title": "Mnemonic Device Generator",
+    "slug": "mnemonic-device-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Create memorable mnemonics, acronyms, or memory palaces for hard-to-remember lists or sequences.",
+    "prompt": "Act as a memory expert. I need to memorize the following list/sequence for \"[SUBJECT, e.g. the cranial nerves, the order of planets, a formula's variables]\":\n\n[PASTE LIST/ITEMS TO MEMORIZE, IN ORDER IF ORDER MATTERS]\n\nGenerate 3 different memory aids:\n1. An acronym or acrostic (a memorable sentence where each word's first letter maps to an item).\n2. A short, vivid mini-story or memory palace approach linking the items in a memorable sequence.\n3. A rhyme or rhythmic phrase if the list lends itself to one.\n\nFor each, briefly explain how to \"unpack\" it back into the original list, and tell me which one is likely easiest to recall long-term for this type of content.",
+    "tags": [
+      "mnemonics",
+      "memory techniques",
+      "study aids",
+      "memorization"
+    ],
+    "createdAt": "2026-07-05"
+  },
+  {
+    "id": "p085",
+    "title": "Concept Map Outline Generator",
+    "slug": "concept-map-outline-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn a topic or notes into a structured concept map outline showing relationships between ideas.",
+    "prompt": "Act as a learning designer who creates concept maps. Topic: \"[TOPIC/SUBJECT]\". Based on the material below (or your general knowledge of the topic if I don't provide material), build a concept map outline:\n\n1. Identify the central/root concept.\n2. List 4-6 major sub-concepts branching from it.\n3. For each sub-concept, list 2-3 related details or examples branching further.\n4. Explicitly label the TYPE of relationship between connected concepts (e.g. \"causes\", \"is a type of\", \"leads to\", \"is an example of\") rather than just listing them.\n\nPresent this as a nested, indented outline (not a visual diagram) that I could redraw as a map on paper, going from center outward.\n\nMaterial (optional):\n[PASTE NOTES/TEXT HERE, OR LEAVE BLANK TO USE THE TOPIC ALONE]",
+    "tags": [
+      "concept map",
+      "mind map",
+      "study techniques",
+      "visual learning"
+    ],
+    "createdAt": "2026-07-06"
+  },
+  {
+    "id": "p086",
+    "title": "Study Group Discussion Questions Generator",
+    "slug": "study-group-discussion-questions-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate thoughtful discussion questions to guide a productive study group session on a topic.",
+    "prompt": "Act as a discussion facilitator preparing questions for a study group on \"[TOPIC/CHAPTER/READING]\". Group level: [LEVEL, e.g. undergraduate, professional certification prep].\n\nGenerate 8-10 discussion questions organized into three types:\n1. Comprehension questions (2-3) — check basic understanding of key facts/concepts.\n2. Application/analysis questions (4-5) — require applying the concept to a new scenario, comparing ideas, or explaining \"why\"/\"how\".\n3. Debate/opinion questions (2-3) — open-ended questions with no single right answer, meant to spark discussion and reveal different interpretations.\n\nAvoid yes/no questions. For the debate questions, briefly note what a strong answer would need to address.\n\nMaterial/topic details:\n[PASTE READING SUMMARY OR TOPIC DETAILS HERE]",
+    "tags": [
+      "study group",
+      "discussion questions",
+      "collaborative learning",
+      "education"
+    ],
+    "createdAt": "2026-07-07"
+  },
+  {
+    "id": "p087",
+    "title": "Language Vocabulary Drill Generator",
+    "slug": "language-vocabulary-drill-generator",
+    "category": "study",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Generate contextual vocabulary drills and example sentences to practice a foreign language word list.",
+    "prompt": "Act as a language tutor. I'm learning [TARGET LANGUAGE] at [LEVEL, e.g. A2/intermediate] level. Here is my vocabulary list for this week:\n\n[PASTE WORD LIST HERE]\n\nFor each word, provide:\n1. The word with its part of speech and a short definition in [MY NATIVE LANGUAGE].\n2. One example sentence in [TARGET LANGUAGE] using the word naturally, at my level, with a translation.\n3. One common collocation or phrase this word is typically used with.\n\nThen create a short 5-question fill-in-the-blank drill using these words in new sentences (don't reuse the example sentences), with an answer key at the end.",
+    "tags": [
+      "language learning",
+      "vocabulary",
+      "drills",
+      "foreign language"
+    ],
+    "createdAt": "2026-07-08"
+  },
+  {
+    "id": "p088",
+    "title": "Survey Data Interpretation Assistant",
+    "slug": "survey-data-interpretation-assistant",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Interpret survey results into clear findings and actionable insights, avoiding overreach in conclusions.",
+    "prompt": "Act as a research analyst interpreting survey data. I will paste raw survey results (percentages, response counts, or open-ended responses) below. Survey topic: \"[SURVEY TOPIC]\". Sample size: [N].\n\nAnalyze and provide:\n1. 3-5 key findings, each stated as a specific, data-backed claim (not vague generalizations).\n2. Any notable patterns, contradictions, or surprising results in the data.\n3. Caveats — sample size limitations, potential response bias, or questions that were ambiguously worded, that I should mention when reporting this.\n4. 2-3 actionable recommendations that logically follow from the findings (clearly separated from the findings themselves).\n\nDo not state anything as a firm conclusion that the data doesn't actually support — flag where more data would be needed.\n\nData:\n[PASTE SURVEY RESULTS/DATA HERE]",
+    "tags": [
+      "survey analysis",
+      "data interpretation",
+      "research",
+      "insights"
+    ],
+    "createdAt": "2026-07-09"
+  },
+  {
+    "id": "p089",
+    "title": "Qualitative Interview Question Guide Builder",
+    "slug": "qualitative-interview-question-guide-builder",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Design a semi-structured interview guide for qualitative research or user research interviews.",
+    "prompt": "Act as a qualitative research methodologist. I'm conducting interviews to understand: \"[RESEARCH GOAL, e.g. why users abandon our onboarding flow]\". Interviewees: \"[PARTICIPANT TYPE]\".\n\nDesign a semi-structured interview guide with:\n1. A warm-up question (low-stakes, builds rapport, not directly about the research topic).\n2. 5-7 core open-ended questions that avoid leading language and avoid yes/no framing, organized from broad to specific.\n3. 2-3 optional follow-up probes for each core question (e.g. \"Can you tell me more about that?\", \"What made you feel that way?\").\n4. A closing question that invites anything I might not have asked about.\n\nFlag any question that risks being leading or biased, and suggest a neutral rewrite.",
+    "tags": [
+      "qualitative research",
+      "interviews",
+      "user research",
+      "methodology"
+    ],
+    "createdAt": "2026-07-10"
+  },
+  {
+    "id": "p090",
+    "title": "Annotated Bibliography Entry Writer",
+    "slug": "annotated-bibliography-entry-writer",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Write a proper annotated bibliography entry summarizing and evaluating a source for academic research.",
+    "prompt": "Act as a research librarian helping build an annotated bibliography for a paper on \"[RESEARCH TOPIC]\", using [CITATION STYLE, e.g. APA 7th edition].\n\nFor the source I describe below, write an annotated bibliography entry with:\n1. A properly formatted citation in [CITATION STYLE] (note: I will verify exact details like page numbers/DOI myself).\n2. A 3-4 sentence summary of the source's main argument or findings.\n3. A 2-3 sentence evaluation of the source's credibility, methodology, or scope (strengths/limitations).\n4. A 1-2 sentence note on how this source specifically relates to or supports my research topic.\n\nSource details:\n[PASTE TITLE, AUTHOR, PUBLICATION, YEAR, AND A BRIEF SUMMARY/ABSTRACT OF THE SOURCE]",
+    "tags": [
+      "annotated bibliography",
+      "citations",
+      "academic writing",
+      "research"
+    ],
+    "createdAt": "2026-07-11"
+  },
+  {
+    "id": "p091",
+    "title": "Research Proposal Outline Builder",
+    "slug": "research-proposal-outline-builder",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT"
+    ],
+    "description": "Structure a research proposal outline covering the question, methodology, and significance.",
+    "prompt": "Act as a research advisor. Help me outline a research proposal on: \"[RESEARCH TOPIC/QUESTION]\", for [CONTEXT, e.g. a master's thesis, a grant application, a course project].\n\nBuild an outline with these sections, each with 2-4 bullet points of what should be covered:\n1. Background & problem statement — why this topic matters, what gap it addresses.\n2. Research question(s)/hypothesis — stated precisely and testably.\n3. Literature review scope — what existing bodies of work I need to engage with.\n4. Proposed methodology — research design, data collection approach, and why it fits the question.\n5. Significance/expected contribution — what this adds to the field.\n6. Limitations & scope — what this study will NOT attempt to answer.\n7. Rough timeline structure (phases, not exact dates).\n\nFlag if my research question as I've described it seems too broad or unfocused for the proposed scope.",
+    "tags": [
+      "research proposal",
+      "academic writing",
+      "methodology",
+      "thesis"
+    ],
+    "createdAt": "2026-07-12"
+  },
+  {
+    "id": "p092",
+    "title": "Market Research Report Summarizer",
+    "slug": "market-research-report-summarizer",
+    "category": "research",
+    "ai": [
+      "Claude",
+      "ChatGPT",
+      "Perplexity"
+    ],
+    "description": "Distill a long market research report or industry study into an executive-ready summary.",
+    "prompt": "Act as a market research analyst preparing an executive briefing. I will paste a market research report or industry study excerpt below, on the topic of \"[MARKET/INDUSTRY]\".\n\nSummarize it into:\n1. Market size & growth — key figures and the timeframe they cover.\n2. Key trends — 3-4 trends identified in the report, each in one sentence.\n3. Major players/competitive landscape — if mentioned, who dominates and how.\n4. Risks/headwinds — factors that could slow growth or disrupt the market.\n5. \"So what\" — 2-3 sentences on what this means for a company considering entering or operating in this market.\n\nKeep the summary under 300 words total. Do not add data points that aren't in the source text.\n\nReport excerpt:\n[PASTE REPORT TEXT HERE]",
+    "tags": [
+      "market research",
+      "industry analysis",
+      "executive summary",
+      "business intelligence"
+    ],
+    "createdAt": "2026-07-13"
+  },
+  {
+    "id": "p093",
+    "title": "Meeting Agenda Builder",
+    "slug": "meeting-agenda-builder",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Build a focused meeting agenda with clear objectives, time allocations, and owners for each item.",
+    "prompt": "Act as an executive assistant skilled at running efficient meetings. Meeting purpose: \"[MEETING PURPOSE]\". Attendees: [ATTENDEES/ROLES]. Total time: [DURATION].\n\nBuild an agenda with:\n1. A one-sentence meeting objective (what decision or outcome must exist by the end).\n2. 3-5 agenda items, each with: topic, time allocation (minutes), owner/who leads it, and whether it's for information, discussion, or decision.\n3. Time buffer for questions/wrap-up at the end.\n4. Pre-read or prep items attendees should review beforehand, if any.\n\nFlag if the requested topics look too ambitious for the time allotted, and suggest what to cut or move to async follow-up instead.\n\nTopics to cover:\n[LIST TOPICS/ISSUES TO DISCUSS]",
+    "tags": [
+      "meetings",
+      "agenda",
+      "planning",
+      "efficiency"
+    ],
+    "createdAt": "2026-06-23"
+  },
+  {
+    "id": "p094",
+    "title": "Email Inbox Triage Assistant",
+    "slug": "email-inbox-triage-assistant",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Sort a batch of emails into clear action categories so you can process your inbox faster.",
+    "prompt": "Act as an executive assistant triaging my inbox. I'll paste a batch of email subject lines and brief summaries below. Sort each one into exactly one category:\n\n1. **Reply now** — needs a response within 24 hours\n2. **Reply later** — needs a response but not urgent, schedule this week\n3. **Delegate** — someone else should handle this (note who, if I've given context)\n4. **Reference only** — no action needed, just file/archive\n5. **Unsubscribe/ignore** — low value, consider unsubscribing\n\nFor each \"Reply now\" item, suggest a one-sentence draft response angle (not a full email) so I can act fast.\n\nEmails:\n[PASTE LIST OF SUBJECT LINES + BRIEF SUMMARIES]",
+    "tags": [
+      "email management",
+      "inbox zero",
+      "triage",
+      "productivity"
+    ],
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": "p095",
+    "title": "Habit Tracker Setup Assistant",
+    "slug": "habit-tracker-setup-assistant",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Design a realistic habit-tracking system for a new habit, including triggers and a fallback plan.",
+    "prompt": "Act as a behavior-change coach using habit science (cue-routine-reward, habit stacking). I want to build the habit of: \"[TARGET HABIT, e.g. reading 20 minutes daily]\". My current routine/context: \"[BRIEF DAILY ROUTINE DESCRIPTION]\".\n\nDesign a habit plan with:\n1. A specific implementation trigger (\"After I [EXISTING HABIT], I will [NEW HABIT]\") using habit stacking based on my routine.\n2. A minimum viable version of the habit for low-motivation days (small enough it's nearly impossible to skip).\n3. What to track daily (keep it to 1-2 simple metrics, not overcomplicated).\n4. A specific if-then plan for the most likely obstacle that will make me skip it.\n5. A simple weekly review question to check if the habit is sticking or needs adjusting.\n\nKeep the whole system simple enough to sustain for months, not just a few weeks.",
+    "tags": [
+      "habits",
+      "behavior change",
+      "habit tracking",
+      "self-improvement"
+    ],
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": "p096",
+    "title": "Delegation Decision Helper",
+    "slug": "delegation-decision-helper",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Decide what to delegate, to whom, and how to hand it off clearly without micromanaging.",
+    "prompt": "Act as a management coach helping me delegate effectively. I have this task/responsibility: \"[TASK DESCRIPTION]\". My team/options: \"[PEOPLE AVAILABLE + THEIR SKILLS/CAPACITY]\".\n\nHelp me:\n1. Decide IF this should be delegated at all (some tasks shouldn't be — flag if this is one of them and why).\n2. Recommend WHO is the best fit, with reasoning tied to their skills/growth/capacity, not just availability.\n3. Define the right level of delegation (full autonomy vs. check-ins at milestones vs. detailed instructions), based on their experience with this type of task.\n4. Draft a short handoff message that clearly states the desired outcome, constraints, deadline, and how/when to escalate if they get stuck — without over-specifying HOW to do it.\n\nOutput the handoff message as a ready-to-send draft.",
+    "tags": [
+      "delegation",
+      "management",
+      "leadership",
+      "team"
+    ],
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": "p097",
+    "title": "Time-Blocked Daily Planning Template",
+    "slug": "time-blocked-daily-planning-template",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Turn today's task list into a realistic time-blocked schedule that accounts for energy levels.",
+    "prompt": "Act as a productivity coach who plans realistic days using time blocking. My tasks for today:\n\n[LIST TODAY'S TASKS, WITH ROUGH TIME ESTIMATES IF KNOWN]\n\nMy working hours: [START TIME] to [END TIME]. My energy pattern: [e.g. sharp in the morning, dip after lunch, second wind in late afternoon]. Fixed commitments (meetings, etc.): [LIST FIXED EVENTS WITH TIMES]\n\nBuild a time-blocked schedule that:\n1. Places the most cognitively demanding task(s) during my highest-energy window.\n2. Groups similar/low-effort tasks (emails, admin) into batched blocks rather than scattering them.\n3. Includes short buffer time between blocks (10-15 min) for realistic transitions.\n4. Flags if my task list is unrealistic for the available hours, and suggests what to cut or move to tomorrow.\n\nOutput as a simple time | task table.",
+    "tags": [
+      "time blocking",
+      "daily planning",
+      "scheduling",
+      "focus"
+    ],
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": "p098",
+    "title": "Procrastination Root-Cause Diagnostic",
+    "slug": "procrastination-root-cause-diagnostic",
+    "category": "productivity",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Diagnose the specific reason you're avoiding a task and get a targeted, not generic, way forward.",
+    "prompt": "Act as a productivity coach who understands that procrastination usually isn't about laziness — it's a signal. I'm avoiding this task: \"[TASK I'M AVOIDING]\". Some context on how I feel about it: \"[HOW YOU FEEL, e.g. overwhelmed, bored, anxious about doing it wrong]\".\n\nHelp me diagnose which of these is the likely root cause, based on what I described: unclear next step, fear of failure/judgment, the task is too big/vague, low perceived value/boring, or a competing priority I actually care about more.\n\nThen, based on the most likely cause:\n1. Explain in 2-3 sentences why this specific cause leads to avoidance (not generic procrastination advice).\n2. Give ONE concrete, small first action I could take in the next 10 minutes that addresses that specific cause.\n3. Suggest one structural change (not willpower-based) that would make this less likely to happen again with similar tasks.",
+    "tags": [
+      "procrastination",
+      "motivation",
+      "self-reflection",
+      "productivity"
+    ],
+    "createdAt": "2026-06-24"
+  },
+  {
+    "id": "p099",
+    "title": "Business Plan Executive Summary Writer",
+    "slug": "business-plan-executive-summary-writer",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a compelling one-page executive summary that captures the essence of a full business plan.",
+    "prompt": "Act as a business consultant writing an executive summary for a business plan. Business: \"[BUSINESS NAME/CONCEPT]\". Industry: \"[INDUSTRY]\". Target market: \"[TARGET MARKET]\".\n\nWrite a one-page executive summary covering:\n1. The problem being solved (1-2 sentences, specific and concrete).\n2. The solution/product and what makes it different (2-3 sentences).\n3. Target market size and who the ideal early customer is.\n4. Business model — how it makes money.\n5. Traction/proof points so far, if any (or what early validation would look like if pre-launch).\n6. The ask — what's needed next (funding, partnership, resources) and what it will be used for.\n\nKeep it under 400 words total, written to make a busy reader (investor, partner) want to know more, without hype language.\n\nAdditional details:\n[PASTE ANY SPECIFIC DETAILS, NUMBERS, OR CONTEXT HERE]",
+    "tags": [
+      "business plan",
+      "executive summary",
+      "startup",
+      "strategy"
+    ],
+    "createdAt": "2026-06-18"
+  },
+  {
+    "id": "p100",
+    "title": "Elevator Pitch Generator",
+    "slug": "elevator-pitch-generator",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Craft a memorable, jargon-free 30-second elevator pitch for a business, product, or idea.",
+    "prompt": "Act as a pitch coach. Help me create a 30-second elevator pitch for: \"[BUSINESS/PRODUCT/IDEA]\". Audience I'll typically pitch to: \"[AUDIENCE, e.g. potential customers, investors, networking contacts]\".\n\nUsing this structure, write the pitch:\n1. Hook — a relatable problem statement or question (1 sentence).\n2. What it is — plain-language description, no jargon or buzzwords (1-2 sentences).\n3. Why it's different — the one thing that sets it apart (1 sentence).\n4. Proof/traction — one credibility signal if available (1 sentence, or note what to add once available).\n5. Ask/CTA — what you want the listener to do next (1 sentence).\n\nKeep total spoken length to about 30 seconds (roughly 75-90 words). Also give a 10-second ultra-short version for when I only get a few seconds.",
+    "tags": [
+      "elevator pitch",
+      "pitching",
+      "startup",
+      "communication"
+    ],
+    "createdAt": "2026-06-18"
+  },
+  {
+    "id": "p101",
+    "title": "Ideal Customer Profile (ICP) Builder",
+    "slug": "ideal-customer-profile-icp-builder",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Define a precise B2B Ideal Customer Profile to focus sales and marketing on the highest-fit accounts.",
+    "prompt": "Act as a B2B go-to-market strategist. Product/service: \"[PRODUCT/SERVICE]\". Based on our best existing customers or target market described below, build an Ideal Customer Profile (ICP):\n\n1. Firmographics — company size (employees/revenue range), industry, geography that fit best.\n2. Trigger events — what's happening in a company that signals they need this NOW (e.g. recent funding, hiring surge, a specific pain point emerging).\n3. Buying committee — likely roles involved in the decision (economic buyer, champion, end user, blocker).\n4. Disqualifiers — red flags that indicate a company is NOT a good fit, even if they show interest.\n5. A one-paragraph ICP summary I could hand to a sales rep to quickly judge if a lead is worth pursuing.\n\nContext on best customers / target market:\n[PASTE DETAILS ABOUT EXISTING CUSTOMERS OR TARGET MARKET HERE]",
+    "tags": [
+      "icp",
+      "b2b",
+      "sales strategy",
+      "go-to-market"
+    ],
+    "createdAt": "2026-06-19"
+  },
+  {
+    "id": "p102",
+    "title": "Negotiation Strategy Planner",
+    "slug": "negotiation-strategy-planner",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Prepare a structured negotiation strategy covering interests, leverage, and fallback positions.",
+    "prompt": "Act as a negotiation coach. I'm preparing to negotiate: \"[NEGOTIATION CONTEXT, e.g. a vendor contract renewal, a salary offer, a partnership term]\" with \"[COUNTERPARTY]\".\n\nHelp me prepare by identifying:\n1. My actual interests (not just my stated position) — what do I really need out of this?\n2. Their likely interests and constraints, based on what I know about them.\n3. My BATNA (best alternative if this negotiation fails) and how strong it realistically is.\n4. 2-3 possible trade-offs or creative options that could satisfy both sides beyond a simple price/term negotiation.\n5. My opening position, target outcome, and walk-away point.\n6. One likely objection or tactic they might use, and how I should respond to it.\n\nContext/details:\n[PASTE RELEVANT BACKGROUND, NUMBERS, HISTORY HERE]",
+    "tags": [
+      "negotiation",
+      "strategy",
+      "business",
+      "deal-making"
+    ],
+    "createdAt": "2026-06-19"
+  },
+  {
+    "id": "p103",
+    "title": "Employee Performance Review Writer",
+    "slug": "employee-performance-review-writer",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Write a balanced, specific performance review that's constructive and grounded in concrete examples.",
+    "prompt": "Act as an experienced manager writing a performance review. Employee role: \"[ROLE/TITLE]\". Review period: \"[PERIOD]\". Based on the notes below, write a performance review that:\n\n1. Opens with a brief overall summary of the period (1-2 sentences, honest tone).\n2. Strengths section — 2-3 specific strengths, each backed by a concrete example or result from my notes (not generic praise like \"great team player\").\n3. Growth areas section — 1-2 specific areas for development, framed constructively with a clear \"what good looks like\" rather than just criticism.\n4. Goals for next period — 2-3 specific, measurable goals tied to the growth areas and the employee's career trajectory.\n\nKeep the tone direct but respectful, avoid vague corporate language, and make sure every point is traceable to something specific in my notes.\n\nMy notes on this employee's period:\n[PASTE RAW NOTES, EXAMPLES, RESULTS HERE]",
+    "tags": [
+      "performance review",
+      "management",
+      "feedback",
+      "hr"
+    ],
+    "createdAt": "2026-06-20"
+  },
+  {
+    "id": "p104",
+    "title": "Vendor & Contract Comparison Analyzer",
+    "slug": "vendor-contract-comparison-analyzer",
+    "category": "business",
+    "ai": [
+      "ChatGPT",
+      "Claude"
+    ],
+    "description": "Compare multiple vendor proposals or contract terms side by side to support a sourcing decision.",
+    "prompt": "Act as a procurement analyst. I'm comparing [NUMBER] vendor options for: \"[WHAT YOU'RE SOURCING, e.g. a CRM platform, an office cleaning contract]\". I'll paste key details of each option below.\n\nBuild a comparison covering:\n1. A side-by-side table of key criteria: price/cost structure, contract length/terms, key features or scope, support/SLA terms, and any notable red flags.\n2. For each vendor, one sentence on their strongest selling point and one sentence on their biggest risk or weakness.\n3. A recommendation on which option looks strongest overall, and under what condition a different option would be better instead (e.g. \"if budget is the top priority, choose X instead\").\n4. 2-3 questions I should ask each vendor before signing, based on gaps or ambiguities in what they've provided.\n\nVendor details:\n[PASTE DETAILS FOR EACH VENDOR/OPTION HERE]",
+    "tags": [
+      "procurement",
+      "vendor comparison",
+      "contracts",
+      "decision making"
+    ],
+    "createdAt": "2026-06-20"
+  }
+];

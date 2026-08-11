@@ -1,0 +1,776 @@
+/* =======================================
+   📚 PROMPT LIBRARY — styling
+   Tái dùng biến màu (--primary, --secondary, --card-bg, --glass-border,
+   --radius, --shadow, --font-heading, --font-body...) đã có trong style.css
+   để tự động đồng bộ với theme đang chọn (Space AI / Future Lab), giống
+   cách usecases.css / battle.css đã làm.
+   ======================================= */
+
+.prompts-app {
+  max-width: 1180px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+  color: var(--text);
+}
+
+/* ---------- HERO ---------- */
+.prompts-eyebrow {
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.prompts-title {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 4.2vw, 34px);
+  line-height: 1.25;
+  margin: 0 0 12px;
+  color: var(--text);
+}
+
+.prompts-desc {
+  color: var(--gray);
+  font-size: 15.5px;
+  line-height: 1.6;
+  max-width: 62ch;
+  margin: 0 0 26px;
+}
+
+/* ---------- TOOLBAR: search + filters ---------- */
+.prompts-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.prompts-search-row {
+  position: relative;
+  flex: 1 1 320px;
+  display: flex;
+}
+
+.prompts-search-row input {
+  width: 100%;
+  padding: 13px 42px 13px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--card-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.prompts-search-row input:focus {
+  border-color: var(--primary);
+}
+
+.prompts-search-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gray);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.prompts-search-clear:hover { color: var(--primary); }
+.prompts-search-clear.hidden { display: none; }
+
+.prompts-filter-select {
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--card-bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+}
+
+.prompts-filter-select:focus { border-color: var(--primary); }
+
+.prompts-sort-group {
+  display: inline-flex;
+  gap: 6px;
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 4px;
+}
+
+.prompts-sort-btn {
+  border: none;
+  background: transparent;
+  color: var(--gray);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.prompts-sort-btn.active {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: #fff;
+}
+
+.prompts-toolbar-row2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.prompts-clear-btn,
+.prompts-my-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  padding: 9px 18px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.prompts-clear-btn:hover,
+.prompts-my-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.prompts-my-btn.active {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ---------- HOMEPAGE PREVIEW (Trang chủ · #tool-section) ----------
+   Khối rút gọn hiển thị Trending/New Prompts (dữ liệu thật) ngay trên
+   Trang chủ, dùng lại .prompts-grid/.prompt-card nên tự đồng bộ theme
+   Space AI / Future Lab, không cần CSS riêng cho card. */
+.home-prompts-preview {
+  margin-top: 44px;
+  padding-top: 36px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.home-prompts-preview-title { flex-wrap: wrap; gap: 14px; }
+
+.home-prompts-viewall-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.home-prompts-viewall-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(var(--primary-rgb), .28);
+}
+
+@media (max-width: 640px) {
+  .home-prompts-preview-title { flex-direction: column; align-items: flex-start; }
+  .home-prompts-viewall-btn { width: 100%; justify-content: center; }
+}
+
+/* ---------- SECTIONS (Trending / Newest / Results) ---------- */
+.prompts-section-block {
+  margin-bottom: 34px;
+}
+
+.prompts-section-block.hidden { display: none; }
+
+.prompts-section-heading {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  margin: 0 0 16px;
+  color: var(--text);
+}
+
+/* ---------- GRID: mac dinh Desktop 3 cot, Tablet 2, Mobile 1 ---------- */
+.prompts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+@media (max-width: 1024px) {
+  .prompts-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .prompts-grid { grid-template-columns: 1fr; }
+  .prompts-toolbar { flex-direction: column; align-items: stretch; }
+  .prompts-toolbar-row2 { justify-content: flex-start; }
+}
+
+/* ---------- PROMPT CARD ---------- */
+.prompt-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 18px;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.prompt-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: var(--glow-cyan);
+}
+
+/* Prompt do người dùng tự tạo (khu vực "Created Prompts") — viền nhấn nhẹ
+   bên trái để phân biệt trực quan với Prompt mặc định / Saved Prompts,
+   không đổi bố cục/kích thước card. */
+.prompt-card-personal {
+  border-left: 3px solid var(--secondary);
+}
+
+.prompt-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.prompt-badge-category {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--surface-tint);
+  color: var(--primary);
+  border: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.prompt-badge-trending {
+  font-size: 13px;
+}
+
+.prompt-card-title {
+  font-family: var(--font-heading);
+  font-size: 16.5px;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--text);
+}
+
+.prompt-card-desc {
+  font-size: 13.5px;
+  color: var(--gray);
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prompt-card-ai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.prompt-ai-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(var(--secondary-rgb), .12);
+  color: var(--secondary);
+  border: 1px solid rgba(var(--secondary-rgb), .25);
+  white-space: nowrap;
+}
+
+.prompt-ai-chip-link {
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.prompt-ai-chip-link:hover {
+  background: rgba(var(--secondary-rgb), .22);
+  transform: translateY(-1px);
+}
+
+.prompt-card-preview {
+  margin: 0;
+  padding: 10px 12px;
+  background: var(--bg-alt);
+  border: 1px dashed var(--glass-border);
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--gray);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 92px;
+  overflow: hidden;
+}
+
+.prompt-usage {
+  font-size: 11.5px;
+  color: var(--gray);
+  font-weight: 600;
+}
+
+.prompt-usage.hidden { display: none; }
+
+.prompt-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.prompt-copy-btn,
+.prompt-fav-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background .2s;
+  white-space: nowrap;
+}
+
+.prompt-copy-btn {
+  border: none;
+  color: #fff;
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+}
+
+.prompt-copy-btn:hover { box-shadow: var(--shadow); }
+
+.prompt-copy-btn.copied-pulse {
+  animation: promptCopyPulse .5s ease;
+}
+
+@keyframes promptCopyPulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt-copy-btn.copied-pulse { animation: none; }
+}
+
+.prompt-fav-btn {
+  border: 1px solid var(--glass-border);
+  background: transparent;
+  color: var(--text);
+}
+
+.prompt-fav-btn:hover { border-color: var(--primary); color: var(--primary); }
+.prompt-fav-btn.active { border-color: var(--primary); color: var(--primary); }
+
+.prompt-copy-btn-lg,
+.prompt-fav-btn-lg {
+  flex: none;
+  padding: 13px 24px;
+  font-size: 14px;
+}
+
+/* ---------- EMPTY / LOADING STATE ---------- */
+.prompts-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 46px 20px;
+  color: var(--gray);
+  font-size: 14.5px;
+  border: 1px dashed var(--glass-border);
+  border-radius: var(--radius);
+}
+
+/* ---------- DETAIL VIEW ---------- */
+.prompts-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.prompts-detail-back:hover { text-decoration: underline; }
+
+.prompt-detail-card {
+  background: var(--card-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 30px;
+}
+
+.prompt-detail-head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.prompt-detail-title {
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 3.4vw, 26px);
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.prompt-detail-desc {
+  color: var(--gray);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.prompt-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 16px 0;
+  margin-bottom: 22px;
+}
+
+.prompt-detail-ai {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+/* ---------- TAGS (Prompt Detail) ---------- */
+.prompt-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 13.5px;
+}
+
+.prompt-tag-chip {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: var(--bg-alt);
+  color: var(--gray);
+  border: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.prompt-detail-subheading {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--primary);
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.prompt-detail-full {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.prompt-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.prompts-related-wrap.hidden { display: none; }
+
+/* ---------- TOAST ---------- */
+.prompts-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--card-bg-strong);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 10px 30px rgba(var(--shadow-rgb), .4);
+  z-index: 6000;
+  opacity: 0;
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+}
+
+.prompts-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 640px) {
+  .prompt-detail-card { padding: 20px; }
+  .prompt-detail-meta { flex-direction: column; align-items: flex-start; }
+  .prompt-detail-actions { flex-direction: column; }
+  .prompt-copy-btn-lg, .prompt-fav-btn-lg, .prompt-delete-btn-lg, .prompt-edit-btn-lg { width: 100%; }
+}
+
+/* ---------- ✨ BADGE "CỦA BẠN" (prompt cá nhân, không public) ---------- */
+.prompt-badge-personal {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(var(--secondary-rgb), .16);
+  color: var(--secondary);
+  border: 1px solid rgba(var(--secondary-rgb), .3);
+  white-space: nowrap;
+}
+
+/* ---------- NÚT XÓA (chỉ prompt cá nhân) ---------- */
+.prompt-delete-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(220, 60, 60, .35);
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 13px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.prompt-delete-btn:hover {
+  background: rgba(220, 60, 60, .12);
+  border-color: #ff6b6b;
+}
+
+.prompt-delete-btn-lg {
+  flex: none;
+  padding: 13px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+/* ---------- NÚT SỬA (chỉ prompt cá nhân / Created Prompts) ---------- */
+.prompt-edit-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--primary-rgb), .35);
+  background: transparent;
+  color: var(--primary);
+  font-size: 13px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.prompt-edit-btn:hover {
+  background: rgba(var(--primary-rgb), .12);
+  border-color: var(--primary);
+}
+
+.prompt-edit-btn-lg {
+  flex: none;
+  padding: 13px 20px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+/* ---------- NÚT "✨ TẠO PROMPT" (nổi bật hơn nút thường) ---------- */
+.prompts-create-btn {
+  border-color: rgba(var(--secondary-rgb), .4);
+  color: var(--secondary);
+}
+
+.prompts-create-btn:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+/* ---------- ✨ MODAL "TẠO PROMPT" ---------- */
+.prompt-create-overlay .prompt-create-modal {
+  background: var(--card-bg-strong);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  border-radius: var(--radius);
+  max-width: 620px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 26px 26px 22px;
+  box-shadow: 0 20px 60px rgba(var(--shadow-rgb), .5), var(--glow-purple);
+  animation: slideInUp .3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.prompt-create-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: var(--background);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.prompt-create-close:hover { background: var(--border); }
+
+.prompt-create-title {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  margin: 0 0 6px;
+  padding-right: 34px;
+  color: var(--text);
+}
+
+.prompt-create-subtitle {
+  font-size: 12.5px;
+  color: var(--gray);
+  line-height: 1.55;
+  margin: 0 0 20px;
+}
+
+.prompt-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.prompt-create-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.prompt-create-label input,
+.prompt-create-label select,
+.prompt-create-label textarea {
+  font: inherit;
+  font-weight: 400;
+  font-size: 13.5px;
+  color: var(--text);
+  background: var(--bg-alt);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 11px 14px;
+  resize: vertical;
+  width: 100%;
+}
+
+.prompt-create-label input:focus,
+.prompt-create-label select:focus,
+.prompt-create-label textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.prompt-create-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.prompt-create-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.prompt-create-save-btn { flex: none; padding: 12px 22px; }
+
+@media (max-width: 640px) {
+  .prompt-create-overlay .prompt-create-modal { padding: 22px 18px 18px; max-height: 92vh; }
+  .prompt-create-row2 { grid-template-columns: 1fr; }
+  .prompt-create-actions { flex-direction: column-reverse; }
+  .prompt-create-actions button { width: 100%; }
+}

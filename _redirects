@@ -1,0 +1,14 @@
+# Netlify: cho phep truy cap truc tiep / tai lai trang tai cac URL dang
+# /battle/ten-ai-vs-ten-ai (dung cho tinh nang AI Battle) van tra ve
+# index.html thay vi bao loi 404, vi day la ung dung 1 trang (SPA).
+# Neu ban KHONG dung Netlify, xem file vercel.json (Vercel) hoac cau hinh
+# tuong duong tren Apache/Nginx/Cloudflare Pages.
+/battle/*  /index.html  200
+
+# 📰 AI News: cho phep truy cap truc tiep / tai lai trang tai URL /ai-news.
+/ai-news  /index.html  200
+
+# 📚 Prompt Library: cho phep truy cap truc tiep / tai lai trang tai
+# /prompts va /prompts/<slug-cua-prompt> van tra ve index.html.
+/prompts  /index.html  200
+/prompts/*  /index.html  200

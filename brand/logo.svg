@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="35%" stop-color="#7FE9FF"/>
+      <stop offset="70%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#050816" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+
+    <linearGradient id="ring2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#00E5FF"/>
+    </linearGradient>
+
+    <radialGradient id="bg" cx="50%" cy="50%" r="72%">
+      <stop offset="0%" stop-color="#0B1024"/>
+      <stop offset="100%" stop-color="#03040C"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background disc -->
+  <circle cx="256" cy="256" r="248" fill="url(#bg)"/>
+
+  <!-- circuit nodes (kept large + simple so they survive downscale) -->
+  <g stroke="url(#ring)" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M256 40 L256 96"/>
+    <path d="M256 416 L256 472"/>
+    <path d="M40 256 L96 256"/>
+    <path d="M416 256 L472 256"/>
+    <path d="M124 124 L162 162"/>
+    <path d="M350 350 L388 388"/>
+    <path d="M388 124 L350 162"/>
+    <path d="M162 350 L124 388"/>
+  </g>
+  <g fill="#00E5FF">
+    <circle cx="256" cy="40" r="12"/>
+    <circle cx="256" cy="472" r="12"/>
+    <circle cx="40" cy="256" r="12"/>
+    <circle cx="472" cy="256" r="12"/>
+  </g>
+  <g fill="#EC4899">
+    <circle cx="124" cy="124" r="10"/>
+    <circle cx="388" cy="388" r="10"/>
+    <circle cx="388" cy="124" r="10"/>
+    <circle cx="124" cy="388" r="10"/>
+  </g>
+
+  <!-- black hole accretion ring (orbit) -->
+  <ellipse cx="256" cy="256" rx="190" ry="190" fill="none" stroke="url(#ring)" stroke-width="10" opacity="0.55"/>
+
+  <!-- swirl / event-horizon arcs -->
+  <path d="M 106 256 A 150 150 0 0 1 406 256" fill="none" stroke="url(#ring)" stroke-width="22" stroke-linecap="round"/>
+  <path d="M 406 256 A 150 150 0 0 1 106 256" fill="none" stroke="url(#ring2)" stroke-width="22" stroke-linecap="round" opacity="0.85" transform="rotate(180 256 256)"/>
+
+  <!-- event horizon void -->
+  <circle cx="256" cy="256" r="118" fill="#03040C"/>
+
+  <!-- AI core glow -->
+  <circle cx="256" cy="256" r="112" fill="url(#core)"/>
+
+  <!-- core spark (simple diamond, reads clearly at 16px) -->
+  <path d="M256 208 L280 256 L256 304 L232 256 Z" fill="#03040C"/>
+  <path d="M256 216 L272 256 L256 296 L240 256 Z" fill="#FFFFFF"/>
+
+  <!-- orbiting body -->
+  <circle cx="406" cy="256" r="14" fill="#7C3AED"/>
+  <circle cx="402" cy="252" r="5" fill="#FFFFFF" opacity="0.8"/>
+</svg>

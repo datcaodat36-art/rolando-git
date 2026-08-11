@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    { "source": "/battle/:path*", "destination": "/index.html" },
+    { "source": "/prompts", "destination": "/index.html" },
+    { "source": "/prompts/:path*", "destination": "/index.html" },
+    { "source": "/ai", "destination": "/index.html" },
+    { "source": "/ai/:path*", "destination": "/index.html" }
+  ],
+  "functions": {
+    "api/ai-news.js": { "maxDuration": 10 },
+    "api/cron-refresh.js": { "maxDuration": 10 }
+  },
+  "crons": [
+    { "path": "/api/cron-refresh", "schedule": "0 6 * * *" }
+  ]
+}

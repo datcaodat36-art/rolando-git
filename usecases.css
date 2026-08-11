@@ -1,0 +1,194 @@
+/* =======================================
+   💡 AI USE CASES — styling
+   Tái dùng biến màu (--primary, --card-bg, --glass-border, --radius, --shadow...)
+   đã có trong style.css để đồng bộ giao diện toàn site.
+   ======================================= */
+
+.usecases-app {
+    max-width: 880px;
+    margin: 0 auto;
+    font-family: var(--font-body);
+    color: var(--text);
+}
+
+.usecases-eyebrow {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--primary);
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.usecases-title {
+    font-family: var(--font-heading);
+    font-size: clamp(22px, 4vw, 30px);
+    line-height: 1.25;
+    margin: 0 0 12px;
+    color: var(--text);
+}
+
+.usecases-desc {
+    color: var(--gray);
+    font-size: 15.5px;
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 0 26px;
+}
+
+.usecases-search-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+}
+
+.usecases-search-row input {
+    flex: 1 1 320px;
+    padding: 14px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+}
+
+.usecases-search-row input:focus {
+    border-color: var(--primary);
+}
+
+.usecases-search-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 24px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    white-space: nowrap;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.usecases-search-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+.usecases-chips-title {
+    font-size: 13.5px;
+    color: var(--gray);
+    margin: 0 0 12px;
+}
+
+.usecases-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.usecases-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--glass-border);
+    background: var(--card-bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.usecases-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.usecases-result {
+    border-top: 1px solid var(--glass-border);
+    padding-top: 26px;
+    animation: usecasesFadeUp .4s ease both;
+}
+
+@keyframes usecasesFadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .usecases-result { animation: none; }
+}
+
+.usecases-result h3 {
+    font-family: var(--font-heading);
+    font-size: 19px;
+    margin: 0 0 18px;
+    color: var(--text);
+}
+
+.usecases-result-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.usecases-tool-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.usecases-result-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.usecases-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    padding: 12px 22px;
+    font: inherit;
+    font-weight: 600;
+    font-size: 14.5px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.usecases-btn-ghost:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.usecases-btn-ghost.hidden {
+    display: none;
+}
+
+.usecases-try-quiz-btn {
+    margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+    .usecases-search-row {
+        flex-direction: column;
+    }
+    .usecases-search-btn {
+        justify-content: center;
+    }
+}

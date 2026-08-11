@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#050816" id="themeColorMeta">
+
+    <script>
+    /* Set the theme attribute before any CSS paints, so switching to
+       Future Lab (or back) never causes a flash of the wrong theme. */
+    (function () {
+        try {
+            var saved = localStorage.getItem("siteTheme");
+            var theme = saved === "future" ? "future" : "space";
+            document.documentElement.setAttribute("data-theme", theme);
+        } catch (e) {
+            document.documentElement.setAttribute("data-theme", "space");
+        }
+    })();
+    </script>
+
+    <!-- Google Analytics 4 (gtag.js) — nạp sớm, bất đồng bộ, không chặn
+         render trang; nếu bị chặn/lỗi mạng cũng không ảnh hưởng website
+         (xem chi tiết trong analytics.js). -->
+    <script src="../../analytics.js"></script>
+
+    <link rel="stylesheet" href="../../style.css">
+
+    <link rel="stylesheet" href="../../admin-panel-styles.css">
+
+    <link rel="stylesheet" href="../../quiz.css">
+    <link rel="stylesheet" href="../../usecases.css">
+    <link rel="stylesheet" href="../../battle.css">
+    <link rel="stylesheet" href="../../prompts.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../brand/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../brand/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="../../brand/favicon-64.png">
+    <link rel="shortcut icon" href="../../favicon.ico">
+
+    <!-- Apple / iOS home screen icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../../brand/apple-touch-icon.png">
+
+    <!-- PWA manifest + app icons -->
+    <link rel="manifest" href="../../site.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../brand/logo-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="../../brand/logo-512.png">
+
+    <!-- SEO:START (sinh tự động bởi scripts/generate-prompt-pages.js cho prompt "app-icon-concept-set" — KHÔNG sửa tay, sửa data/prompts.json rồi chạy lại script) -->
+    <title>App Icon Concept Set — Free Image AI Prompt | AI Tools</title>
+
+    <meta name="description" content="Generate a set of clean, modern app icon concepts for a mobile product.">
+
+    <link rel="canonical" href="https://tool-ai-eta.vercel.app/prompts/app-icon-concept-set">
+
+    <meta property="og:site_name" content="AI Tools – Free AI Tools Online">
+    <meta name="application-name" content="AI Tools – Free AI Tools Online">
+    <meta name="apple-mobile-web-app-title" content="AI Tools – Free AI Tools Online">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "App Icon Concept Set",
+  "description": "Generate a set of clean, modern app icon concepts for a mobile product.",
+  "url": "https://tool-ai-eta.vercel.app/prompts/app-icon-concept-set",
+  "inLanguage": "en",
+  "isAccessibleForFree": true,
+  "keywords": "App Icon Concept Set, Image prompt, Midjourney prompt, DALL-E prompt, app icon, ui design, branding",
+  "genre": "Image",
+  "dateCreated": "2026-07-05",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "AI Tools",
+    "url": "https://tool-ai-eta.vercel.app/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "AI Tools",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://tool-ai-eta.vercel.app/brand/logo-512.png"
+    }
+  }
+}
+    </script>
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="App Icon Concept Set — Free Image AI Prompt | AI Tools">
+    <meta property="og:description" content="Generate a set of clean, modern app icon concepts for a mobile product.">
+    <meta property="og:url" content="https://tool-ai-eta.vercel.app/prompts/app-icon-concept-set">
+    <meta property="og:image" content="https://tool-ai-eta.vercel.app/brand/logo-1024.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="App Icon Concept Set — Free Image AI Prompt | AI Tools">
+    <meta name="twitter:description" content="Generate a set of clean, modern app icon concepts for a mobile product.">
+    <meta name="twitter:image" content="https://tool-ai-eta.vercel.app/brand/logo-1024.png">
+    <!-- SEO:END -->
+
+</head>
+
+<body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-robot">
+                <div class="robot-head">
+                    <div class="robot-eye robot-eye-left"></div>
+                    <div class="robot-eye robot-eye-right"></div>
+                </div>
+                <div class="robot-body">
+                    <div class="robot-limb robot-limb-left"></div>
+                    <div class="robot-limb robot-limb-right"></div>
+                </div>
+            </div>
+            <p class="loading-text" data-i18n="loading_text">Đang tải...</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div class="logo" id="siteLogoText">
+
+            Tool AI
+
+        </div>
+
+        <nav>
+
+            <a href="#" id="homeToggle" data-i18n="nav_home">Trang chủ</a>
+
+            <a href="#" id="knowledgeToggle" data-i18n="nav_knowledge">Kiến thức AI</a>
+
+            <a href="#" id="toolsToggle" data-i18n="nav_tools">Công cụ AI</a>
+
+            <a href="#" id="guideToggle" data-i18n="nav_guide">Hướng dẫn</a>
+
+            <a href="#" id="usecasesToggle" data-i18n="nav_usecases">💡 AI Use Cases</a>
+
+            <a href="#" id="promptsToggle" data-i18n="nav_prompts">📚 Prompt Library</a>
+
+            <a href="#" id="quizToggle" data-i18n="nav_quiz">🧭 AI Quiz</a>
+
+            <a href="#" id="battleToggle" data-i18n="nav_battle">⚔️ AI Battle</a>
+
+        </nav>
+
+        <div class="header-right">
+
+            <button id="mobileMenuBtn" aria-label="Menu" type="button">
+
+                ☰
+
+            </button>
+
+            <div class="lang-select">
+
+                <select id="langSelect">
+
+                    <option value="en" selected>🇺🇸 English</option>
+
+                    <option value="vi">🇻🇳 Tiếng Việt</option>
+
+                </select>
+
+            </div>
+
+            <button id="themeToggle" type="button" title="Switch theme" aria-label="Switch theme">
+
+                🧪
+
+            </button>
+
+            <button id="compactMode" type="button" aria-label="Bật giao diện thu gọn" title="Bật giao diện thu gọn">
+
+                A−
+
+            </button>
+
+            <button id="adminToggle" title="Quản lý AI" data-i18n-title="admin_toggle_title">
+
+                ⚙️
+
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- QC BANNER - Mobile 320x50, hiển thị dưới header, ẩn trên desktop -->
+    <div id="mobile-ad-banner" style="display:flex;justify-content:center;align-items:center;width:100%;min-height:50px;overflow:hidden;margin:8px 0;">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '6dde7af73e02cce43c2ef0bb61520b64',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="https://www.highperformanceformat.com/6dde7af73e02cce43c2ef0bb61520b64/invoke.js"></script>
+    </div>
+    <style>
+        @media (min-width: 901px) {
+            #mobile-ad-banner { display: none !important; }
+        }
+    </style>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1 data-i18n="hero_title">
+
+                Khám phá thế giới AI
+
+            </h1>
+
+            <p data-i18n="hero_desc">
+
+                Tổng hợp những công cụ AI tốt nhất cho nhu cầu công việc
+
+            </p>
+
+            <div class="search-box">
+
+                <input id="searchInput" type="text" data-i18n-placeholder="search_placeholder" placeholder="Tìm ChatGPT, Gemini, Claude...">
+
+                <button id="searchBtn" data-i18n="search_btn">
+
+                    Tìm kiếm
+
+                </button>
+
+                <button id="clearSearch" class="clear-search" type="button" aria-label="Xóa tìm kiếm" title="Xóa tìm kiếm">×</button>
+
+            </div>
+
+        </div>
+
+        <!-- CON ROBOT AI TRANG TRÍ GÓC HERO (ảnh CC BY-NC 4.0, nguồn: pngimg.com) -->
+        <img class="hero-robot" src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png" alt="Robot AI minh hoa">
+
+    </section>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TIỆN ÍCH NHANH: luôn hiện trên điện thoại, không cần cuộn sidebar -->
+        <div class="quick-utilities" aria-label="Tiện ích nhanh">
+            <button type="button" data-utility="trending" data-i18n="util_trending">🔥 Trending AI</button>
+            <button type="button" data-utility="ranking" data-i18n="util_ranking">🏆 Bảng xếp hạng</button>
+            <button type="button" data-utility="newest" data-i18n="util_newest">🆕 AI mới nhất</button>
+            <button type="button" data-utility="free" data-i18n="util_free">🎁 AI miễn phí</button>
+            <button type="button" data-utility="favorites" data-i18n="util_favorites">❤️ Yêu thích</button>
+            <button type="button" data-utility="recent" data-i18n="util_recent">🕘 Đã xem gần đây</button>
+            <button type="button" data-utility="random" data-i18n="util_random">🎲 Gợi ý ngẫu nhiên</button>
+        </div>
+
+        <!-- SIDEBAR -->
+
+        <button id="sidebarToggle" class="mobile-toggle-btn" type="button">
+
+            <span>☰</span> <span data-i18n="sidebar_toggle_label">Danh mục &amp; Tiện ích</span>
+
+        </button>
+
+        <aside class="sidebar" id="sidebarPanel">
+
+            <h3 data-i18n="sidebar_title">
+
+                Danh mục
+
+            </h3>
+
+            <ul id="categorySidebarList">
+
+                <li data-category="all" data-i18n="cat_all">🔥 Tất cả AI</li>
+
+                <!-- Các danh mục khác (Chat AI, AI Hình ảnh...) được vẽ động
+                     bằng JavaScript từ dữ liệu Danh mục (data.js hoặc Firebase),
+                     xem hàm renderCategorySidebar() trong script.js -->
+
+            </ul>
+
+            <h3 class="utility-title" data-i18n="utility_title">Tiện ích</h3>
+
+            <ul class="utility-list">
+
+                <li data-utility="trending" data-i18n="util_trending">🔥 Trending AI</li>
+
+                <li data-utility="ranking" data-i18n="util_ranking">🏆 Bảng xếp hạng</li>
+
+                <li data-utility="newest" data-i18n="util_newest">🆕 AI mới nhất</li>
+
+                <li data-utility="free" data-i18n="util_free">🎁 AI miễn phí</li>
+
+                <li data-utility="favorites" data-i18n="util_favorites">❤️ Yêu thích</li>
+
+                <li data-utility="recent" data-i18n="util_recent">🕘 Đã xem gần đây</li>
+
+                <li data-utility="random" data-i18n="util_random">🎲 Gợi ý ngẫu nhiên</li>
+
+                <li data-utility="profession" data-i18n="util_profession">💼 AI theo nghề</li>
+
+            </ul>
+
+        </aside>
+
+
+
+        <!-- CONTENT -->
+
+        <section class="content">
+
+            <!-- KIẾN THỨC AI (ẩn mặc định, bấm menu mới hiện) -->
+
+            <div id="knowledge-section" class="hidden">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_knowledge">
+
+                        Kiến thức AI
+
+                    </h2>
+
+                </div>
+
+                <div id="knowledgeContainer" class="knowledge-grid">
+
+                </div>
+
+            </div>
+
+            <!-- HƯỚNG DẪN SỬ DỤNG AI (ẩn mặc định, bấm menu mới hiện) -->
+
+            <div id="guide-section" class="hidden">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_guide">
+
+                        Hướng dẫn sử dụng AI
+
+                    </h2>
+
+                </div>
+
+                <div id="guideContainer" class="knowledge-grid">
+
+                </div>
+
+            </div>
+
+            <!-- 💡 AI USE CASES (ẩn mặc định, bấm menu mới hiện) -->
+
+            <div id="usecases-section" class="hidden">
+
+                <div class="usecases-app">
+
+                    <p class="usecases-eyebrow" data-i18n="usecases_eyebrow">AI Use Cases · Gợi ý theo nhu cầu</p>
+
+                    <h2 class="usecases-title" data-i18n="usecases_title">💡 Bạn muốn làm gì với AI?</h2>
+
+                    <p class="usecases-desc" data-i18n="usecases_desc">Chọn nhanh nhu cầu bên dưới hoặc gõ đúng điều bạn muốn — chúng tôi sẽ gợi ý những AI phù hợp nhất.</p>
+
+                    <div class="usecases-search-row">
+                        <input type="text" id="usecasesInput" data-i18n-placeholder="usecases_input_placeholder" placeholder="VD: Tôi muốn làm video, Tôi muốn học tiếng Anh...">
+                        <button type="button" id="usecasesSearchBtn" class="usecases-search-btn" data-i18n="usecases_search_btn">🔍 Tìm AI phù hợp</button>
+                    </div>
+
+                    <p class="usecases-chips-title" data-i18n="usecases_chips_title">Hoặc chọn nhanh:</p>
+                    <div class="usecases-chips" id="usecasesChips"></div>
+
+                    <div class="usecases-result hidden" id="usecasesResult">
+                        <h3 id="usecasesResultTitle">✨ AI phù hợp với bạn</h3>
+                        <div class="usecases-result-grid" id="usecasesResultGrid"></div>
+                        <div class="usecases-result-actions">
+                            <button type="button" class="usecases-btn-ghost" id="usecasesViewAllBtn" data-i18n="usecases_view_all">Xem tất cả trong Công cụ AI →</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 📚 PROMPT LIBRARY (ẩn mặc định, bấm menu mới hiện) -->
+
+            <div id="prompts-section" class="hidden">
+
+                <div class="prompts-app">
+
+                    <!-- LƯỚI CHÍNH: Hero + Toolbar + Trending + Newest + Kết quả -->
+                    <div id="promptsGridView">
+
+                        <p class="prompts-eyebrow" data-i18n="prompts_eyebrow">Prompt Library</p>
+                        <h2 class="prompts-title" data-i18n="prompts_title">📚 Prompt Library</h2>
+                        <p class="prompts-desc" data-i18n="prompts_desc">Discover powerful prompts for your favorite AI tools.</p>
+
+                        <div class="prompts-toolbar">
+                            <div class="prompts-search-row">
+                                <input type="text" id="promptsSearchInput" data-i18n-placeholder="prompts_search_placeholder" placeholder="Tìm prompt theo tên, nội dung, danh mục, AI...">
+                                <button type="button" id="promptsSearchClear" class="prompts-search-clear hidden" aria-label="Clear">×</button>
+                            </div>
+
+                            <select id="promptsCategoryFilter" class="prompts-filter-select"></select>
+                            <select id="promptsAiFilter" class="prompts-filter-select"></select>
+
+                            <div class="prompts-sort-group">
+                                <button type="button" id="promptsSortNewestBtn" class="prompts-sort-btn active" data-i18n="prompts_sort_newest">🆕 Mới nhất</button>
+                                <button type="button" id="promptsSortPopularBtn" class="prompts-sort-btn" data-i18n="prompts_sort_popular">🔥 Phổ biến</button>
+                                <button type="button" id="promptsSortFeaturedBtn" class="prompts-sort-btn" data-i18n="prompts_sort_featured">⭐ Nổi bật</button>
+                            </div>
+                        </div>
+
+                        <div class="prompts-toolbar-row2">
+                            <button type="button" id="promptsMyPromptsBtn" class="prompts-my-btn" data-i18n="prompts_my_prompts">❤️ Prompt Của Tôi</button>
+                            <button type="button" id="promptsCreateBtn" class="prompts-my-btn prompts-create-btn" data-i18n="prompts_create_btn">✨ Tạo Prompt</button>
+                            <button type="button" id="promptsClearFiltersBtn" class="prompts-clear-btn" data-i18n="prompts_clear_filters">✖ Xóa bộ lọc</button>
+                        </div>
+
+                        <div class="prompts-section-block hidden" id="promptsUserWrap">
+                            <h3 class="prompts-section-heading" data-i18n="prompts_user_title">✨ Prompt Của Bạn</h3>
+                            <div class="prompts-grid" id="promptsUserGrid"></div>
+                        </div>
+
+                        <div class="prompts-section-block" id="promptsTrendingWrap">
+                            <h3 class="prompts-section-heading" data-i18n="prompts_trending_title">🔥 Prompt Nổi Bật</h3>
+                            <div class="prompts-grid" id="promptsTrendingGrid"></div>
+                        </div>
+
+                        <div class="prompts-section-block" id="promptsNewestWrap">
+                            <h3 class="prompts-section-heading" data-i18n="prompts_newest_title">🆕 Prompt Mới Nhất</h3>
+                            <div class="prompts-grid" id="promptsNewestGrid"></div>
+                        </div>
+
+                        <div class="prompts-section-block">
+                            <h3 class="prompts-section-heading" id="promptsResultsTitle" data-i18n="prompts_all_title">Tất cả Prompt</h3>
+                            <div class="prompts-grid" id="promptsResultsGrid"></div>
+                        </div>
+
+                    </div>
+
+                    <!-- CHI TIẾT 1 PROMPT -->
+                    <div id="promptsDetailView" class="hidden">
+                        <button type="button" id="promptsDetailBack" class="prompts-detail-back" data-i18n="prompts_back_to_library">← Quay lại Prompt Library</button>
+
+                        <div class="prompt-detail-card" id="promptsDetailBody"></div>
+
+                        <div class="prompts-section-block prompts-related-wrap hidden">
+                            <h3 class="prompts-section-heading" data-i18n="prompts_related_title">Prompt liên quan</h3>
+                            <div class="prompts-grid" id="promptsRelatedGrid"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- AI THEO NGHỀ (ẩn mặc định, bấm menu tiện ích mới hiện) -->
+
+            <div id="profession-section" class="hidden">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_profession">
+
+                        AI theo nghề
+
+                    </h2>
+
+                </div>
+
+                <div id="professionContainer" class="profession-grid">
+
+                </div>
+
+            </div>
+
+            <!-- BẢNG XẾP HẠNG AI (ẩn mặc định, bấm menu tiện ích mới hiện) -->
+
+            <div id="ranking-section" class="hidden">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_ranking">
+
+                        Bảng xếp hạng AI
+
+                    </h2>
+
+                    <span class="tool-count" data-i18n="ranking_note">Xếp hạng theo đánh giá người dùng</span>
+
+                </div>
+
+                <div id="rankingContainer" class="ranking-list">
+
+                </div>
+
+            </div>
+
+            <!-- TRENDING AI (ẩn mặc định, bấm menu tiện ích mới hiện) -->
+
+            <div id="trending-section" class="hidden">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_trending">
+
+                        🔥 AI Thịnh Hành Hiện Nay
+
+                    </h2>
+
+                </div>
+
+                <div id="trendingContainer" class="trending-list">
+
+                </div>
+
+            </div>
+
+            <!-- CÔNG CỤ AI -->
+
+            <div id="tool-section">
+
+                <div class="section-title">
+
+                    <h2 data-i18n="section_tools">
+
+                        Công cụ AI nổi bật
+
+                    </h2>
+
+                    <div class="tool-controls">
+                        <span id="toolCount" class="tool-count" aria-live="polite"></span>
+                        <label class="sort-label" for="sortTools" data-i18n="sort_label">Sắp xếp</label>
+                        <select id="sortTools" class="sort-select" aria-label="Sắp xếp công cụ AI">
+                            <option value="featured" data-i18n="sort_featured">Nổi bật</option>
+                            <option value="rating" data-i18n="sort_rating">Đánh giá cao</option>
+                            <option value="name-asc" data-i18n="sort_name_asc">Tên A–Z</option>
+                            <option value="name-desc" data-i18n="sort_name_desc">Tên Z–A</option>
+                        </select>
+                        <button id="advFilterToggleBtn" type="button" class="btn-adv-filter" aria-expanded="false" aria-controls="advFilterPanel" data-i18n="adv_filter_toggle">🎛️ Bộ lọc nâng cao</button>
+                    </div>
+
+                </div>
+
+                <div id="advFilterPanel" class="advanced-filters-panel hidden">
+                    <div class="adv-filter-group">
+                        <span class="adv-filter-label" data-i18n="adv_filter_price">💵 Giá</span>
+                        <button type="button" class="adv-chip" data-filter-type="price" data-filter-value="free" data-i18n="adv_filter_free">Miễn phí</button>
+                        <button type="button" class="adv-chip" data-filter-type="price" data-filter-value="pro" data-i18n="adv_filter_paid">Trả phí</button>
+                    </div>
+                    <div class="adv-filter-group">
+                        <span class="adv-filter-label" data-i18n="adv_filter_feature">⚙️ Tính năng</span>
+                        <button type="button" class="adv-chip" data-filter-type="api" data-filter-value="true" data-i18n="adv_filter_has_api">🔌 Có API</button>
+                    </div>
+                    <div class="adv-filter-group">
+                        <span class="adv-filter-label" data-i18n="adv_filter_type">🗂️ Loại công cụ</span>
+                        <button type="button" class="adv-chip" data-filter-type="category" data-filter-value="chat" data-i18n="adv_filter_chat">💬 Chat</button>
+                        <button type="button" class="adv-chip" data-filter-type="category" data-filter-value="image" data-i18n="adv_filter_image">🎨 Hình ảnh</button>
+                        <button type="button" class="adv-chip" data-filter-type="category" data-filter-value="video" data-i18n="adv_filter_video">🎬 Video</button>
+                        <button type="button" class="adv-chip" data-filter-type="category" data-filter-value="code" data-i18n="adv_filter_code">💻 Lập trình</button>
+                    </div>
+                    <button type="button" id="advFilterClearBtn" class="adv-filter-clear" data-i18n="adv_filter_clear">✖ Xóa bộ lọc</button>
+                </div>
+
+                <div id="toolContainer" class="tool-grid">
+
+                </div>
+
+                <!-- 📚 PROMPT LIBRARY PREVIEW: kết nối Prompt Library (dữ liệu thật,
+                     dùng chung promptLibrary/cardHtml() với trang Prompt Library đầy đủ
+                     trong prompts.js) ngay trên Trang chủ. Không đụng tới Space AI /
+                     Future Lab (chỉ là theme trang trí, xem themeToggle ở trên). -->
+                <div class="home-prompts-preview" id="homePromptsPreview">
+
+                    <div class="section-title home-prompts-preview-title">
+                        <h2 data-i18n="prompts_title">📚 Prompt Library</h2>
+                        <button type="button" id="homePromptsViewAllBtn" class="home-prompts-viewall-btn" data-i18n="prompts_view_all">Xem tất cả Prompt →</button>
+                    </div>
+
+                    <div class="prompts-section-block hidden" id="homePromptsTrendingWrap">
+                        <h3 class="prompts-section-heading" data-i18n="prompts_trending_title">🔥 Prompt Nổi Bật</h3>
+                        <div class="prompts-grid" id="homePromptsTrendingGrid"></div>
+                    </div>
+
+                    <div class="prompts-section-block hidden" id="homePromptsNewestWrap">
+                        <h3 class="prompts-section-heading" data-i18n="prompts_newest_title">🆕 Prompt Mới Nhất</h3>
+                        <div class="prompts-grid" id="homePromptsNewestGrid"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- AI QUIZ (ẩn mặc định, bấm menu "AI Quiz" mới hiện) -->
+            <div id="quiz-section" class="hidden">
+
+                <div class="section-title">
+                    <h2 data-i18n="nav_quiz">🧭 AI Quiz</h2>
+                </div>
+
+                <div class="quiz-app">
+
+                    <!-- HERO -->
+                    <div class="quiz-screen active" id="quizScreenHero">
+                        <div class="quiz-hero">
+                            <div class="quiz-hero-tuner" id="quizHeroTuner"></div>
+                            <div class="quiz-eyebrow" data-i18n="quiz_eyebrow">AI Quiz · ~90 giây</div>
+                            <h3 data-i18n="quiz_hero_title">Dò đúng tần số AI hợp với bạn</h3>
+                            <p data-i18n="quiz_hero_desc">Thay vì lục tung hàng trăm công cụ AI, trả lời vài câu hỏi ngắn — chúng tôi sẽ dò ra công cụ khớp nhất với nhu cầu, ngân sách và cách bạn làm việc.</p>
+                            <button class="btn quiz-btn-primary" id="quizStartBtn" type="button" data-i18n="quiz_start_btn">▶ Bắt đầu Quiz</button>
+                            <button class="quiz-btn-ghost" id="quizViewSavedBtn" type="button" hidden data-i18n="quiz_view_saved">Xem kết quả đã lưu</button>
+                            <div class="quiz-hero-meta" data-i18n="quiz_meta">8 câu hỏi · không cần đăng ký · kết quả cá nhân hoá</div>
+                        </div>
+                    </div>
+
+                    <!-- QUESTIONS -->
+                    <div class="quiz-screen" id="quizScreenQuestion">
+                        <div class="quiz-progress-row">
+                            <span><span data-i18n="quiz_question_label">Câu</span> <b id="quizQIndex">1</b> / <span id="quizQTotal">8</span></span>
+                            <span id="quizQPercent">0%</span>
+                        </div>
+                        <div class="quiz-dial-track"><div class="quiz-dial-fill" id="quizDialFill"></div></div>
+
+                        <div class="quiz-q-label" id="quizQLabel">CH 01</div>
+                        <h3 class="quiz-q-text" id="quizQText">—</h3>
+                        <div class="quiz-options-grid" id="quizOptionsGrid"></div>
+
+                        <div class="quiz-nav-row">
+                            <button class="quiz-link-btn" id="quizBackBtn" type="button" data-i18n="quiz_back">← Câu trước</button>
+                            <button class="quiz-link-btn" id="quizSkipBtn" type="button" data-i18n="quiz_skip">Bỏ qua câu này →</button>
+                        </div>
+                    </div>
+
+                    <!-- RESULTS -->
+                    <div class="quiz-screen" id="quizScreenResults">
+                        <div class="quiz-eyebrow" data-i18n="quiz_result_eyebrow">🎯 Kết quả của bạn</div>
+
+                        <div class="quiz-match-card">
+                            <div class="quiz-match-top">
+                                <div class="quiz-match-icon" id="quizMatchIcon">🤖</div>
+                                <div class="quiz-match-id">
+                                    <p class="quiz-match-name" id="quizMatchName">—</p>
+                                    <p class="quiz-match-cat" id="quizMatchCat">—</p>
+                                </div>
+                                <div class="quiz-match-score">
+                                    <div class="quiz-pct" id="quizMatchPct">0%</div>
+                                    <div class="quiz-pct-lbl" data-i18n="quiz_match_label">Độ khớp</div>
+                                </div>
+                            </div>
+                            <p class="quiz-match-tagline" id="quizMatchTagline">—</p>
+                            <div class="quiz-match-actions">
+                                <a class="btn quiz-btn-primary quiz-btn-sm" id="quizVisitBtn" href="#" target="_blank" rel="noopener" data-i18n="quiz_visit_btn">Truy cập AI →</a>
+                                <button class="quiz-btn-ghost quiz-btn-sm" id="quizCompareBtn" type="button" data-i18n="quiz_compare_btn">So sánh Top 3</button>
+                            </div>
+                        </div>
+
+                        <div class="quiz-explain-box" id="quizExplainText">—</div>
+
+                        <p class="quiz-section-label" data-i18n="quiz_top5_label">Top 5 AI phù hợp</p>
+                        <div class="quiz-top-list" id="quizTopList"></div>
+
+                        <p class="quiz-section-label" data-i18n="quiz_share_label">Chia sẻ kết quả</p>
+                        <div class="quiz-share-row">
+                            <button class="quiz-share-btn" id="quizShareFb" type="button" title="Facebook">f</button>
+                            <button class="quiz-share-btn" id="quizShareX" type="button" title="X">𝕏</button>
+                            <button class="quiz-share-btn" id="quizShareLi" type="button" title="LinkedIn">in</button>
+                            <button class="quiz-share-btn" id="quizShareCopy" type="button" title="Copy link">🔗</button>
+                        </div>
+
+                        <div class="quiz-results-footer">
+                            <button class="quiz-btn-ghost quiz-btn-sm" id="quizSaveBtn" type="button" data-i18n="quiz_save_btn">💾 Lưu kết quả</button>
+                            <button class="quiz-btn-ghost quiz-btn-sm" id="quizRetakeBtn" type="button" data-i18n="quiz_retake_btn">↺ Làm lại Quiz</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- AI BATTLE ARENA (ẩn mặc định, bấm menu "AI Battle" mới hiện) -->
+            <div id="battle-section" class="hidden">
+
+                <div class="section-title battle-section-title">
+                    <h2 data-i18n="section_battle">⚔️ AI Battle Arena</h2>
+                    <span class="tool-count" data-i18n="battle_subtitle">Chọn 2 AI để so tài trực tiếp</span>
+                </div>
+
+                <div class="battle-toolbar">
+                    <button id="battleRandomBtn" class="btn-battle-action" type="button">🎲 <span data-i18n="battle_random">Random Battle</span></button>
+                    <button id="battleShareBtn" class="btn-battle-action" type="button" disabled>🔗 <span data-i18n="battle_share">Chia sẻ</span></button>
+                    <button id="battleResetBtn" class="btn-battle-action" type="button">♻️ <span data-i18n="battle_reset">Làm lại</span></button>
+                </div>
+
+                <div class="battle-arena" id="battleArena">
+                    <div class="battle-slot" id="battleSlotA" data-slot="a">
+                        <div class="battle-slot-inner">
+                            <div class="battle-slot-glow"></div>
+                            <img class="battle-slot-logo" id="battleLogoA" alt="">
+                            <div class="battle-slot-placeholder" id="battlePlaceholderA">
+                                <span class="battle-plus">+</span>
+                                <span data-i18n="battle_choose_ai">Chọn AI</span>
+                            </div>
+                            <h3 class="battle-slot-name" id="battleNameA"></h3>
+                            <span class="battle-slot-score" id="battleScoreA"></span>
+                        </div>
+                    </div>
+
+                    <div class="battle-vs">
+                        <div class="battle-vs-ring"></div>
+                        <span class="battle-vs-text">VS</span>
+                    </div>
+
+                    <div class="battle-slot" id="battleSlotB" data-slot="b">
+                        <div class="battle-slot-inner">
+                            <div class="battle-slot-glow"></div>
+                            <img class="battle-slot-logo" id="battleLogoB" alt="">
+                            <div class="battle-slot-placeholder" id="battlePlaceholderB">
+                                <span class="battle-plus">+</span>
+                                <span data-i18n="battle_choose_ai">Chọn AI</span>
+                            </div>
+                            <h3 class="battle-slot-name" id="battleNameB"></h3>
+                            <span class="battle-slot-score" id="battleScoreB"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PICKER MODAL -->
+                <div class="battle-picker hidden" id="battlePicker">
+                    <div class="battle-picker-box">
+                        <div class="battle-picker-header">
+                            <h3 id="battlePickerTitle" data-i18n="battle_pick_title">Chọn một AI</h3>
+                            <button class="battle-picker-close" id="battlePickerClose" type="button">✕</button>
+                        </div>
+                        <input type="text" id="battlePickerSearch" class="battle-picker-search" data-i18n-placeholder="battle_search_placeholder" placeholder="Tìm AI theo tên...">
+                        <div class="battle-picker-cats" id="battlePickerCats"></div>
+                        <div class="battle-picker-grid" id="battlePickerGrid"></div>
+                    </div>
+                </div>
+
+                <!-- KẾT QUẢ SO SÁNH -->
+                <div class="battle-results hidden" id="battleResults">
+                    <div class="battle-winner-banner" id="battleWinnerBanner"></div>
+                    <div class="battle-compare-grid" id="battleCompareGrid"></div>
+
+                    <div class="battle-radar-wrap">
+                        <h3 data-i18n="battle_radar_title">📡 Biểu đồ Radar</h3>
+                        <div class="battle-radar-container" id="battleRadarContainer"></div>
+                    </div>
+
+                    <div class="battle-info-grid" id="battleInfoGrid"></div>
+                    <div class="battle-proscons-grid" id="battleProsConsGrid"></div>
+                    <div class="battle-vote-box" id="battleVoteBox"></div>
+                    <div class="battle-share-box" id="battleShareBox"></div>
+                </div>
+
+                <div class="battle-trending">
+                    <h3 data-i18n="battle_trending_title">🔥 Trận đấu nổi bật</h3>
+                    <div class="battle-trending-list" id="battleTrendingList"></div>
+                </div>
+
+                <div class="battle-history-wrap">
+                    <h3 data-i18n="battle_history_title">🕘 Lịch sử trận đấu của bạn</h3>
+                    <div class="battle-history-list" id="battleHistoryList"></div>
+                </div>
+
+                <div class="battle-ranking-wrap">
+                    <h3 data-i18n="battle_ranking_title">🏆 Bảng xếp hạng sức mạnh AI</h3>
+                    <p class="battle-ranking-note" data-i18n="battle_ranking_note">Xếp hạng dựa trên điểm tổng hợp ước tính</p>
+                    <div class="battle-ranking-list" id="battleRankingList"></div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <canvas id="battleConfettiCanvas" class="battle-confetti-canvas"></canvas>
+
+    <!-- ADMIN PANEL (Hệ thống Admin Authentication mới) -->
+<!-- ADMIN MODAL (Insert into index.html) -->
+<div id="adminModal" class="admin-modal hidden">
+    <div class="admin-modal-content">
+        
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <h2 data-i18n="admin_modal_title">⚙️ Quản Lý Admin</h2>
+            <button id="adminClose" class="admin-close" aria-label="Đóng" data-i18n-aria="admin_close_label">✕</button>
+        </div>
+
+        <!-- Authentication Container (CHỈ đăng nhập Admin - không có đăng ký) -->
+        <div id="adminAuthContainer" class="admin-auth-container">
+
+            <div id="loginTab" class="admin-auth-content active">
+                <h3 data-i18n="admin_login_heading">Đăng Nhập Admin</h3>
+                <form id="loginForm" class="admin-form">
+                    <div class="form-group">
+                        <label for="loginEmail" data-i18n="admin_login_email_label">📧 Email Admin:</label>
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="admin@example.com"
+                            data-i18n-placeholder="admin_login_email_placeholder"
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword" data-i18n="admin_login_password_label">🔒 Mật khẩu:</label>
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="Nhập mật khẩu"
+                            data-i18n-placeholder="admin_login_password_placeholder"
+                            autocomplete="current-password"
+                        >
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" data-i18n="admin_login_submit">
+                            🔐 Đăng Nhập
+                        </button>
+                    </div>
+
+                    <div class="form-info">
+                        <p data-i18n="admin_login_info">ℹ️ Website chỉ có 1 tài khoản Admin duy nhất, được tạo sẵn trong Firebase - không có chức năng đăng ký.</p>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Admin Panel (Shown after login) -->
+        <div id="adminPanelContainer" class="admin-panel-container hidden">
+            
+            <!-- User Info -->
+            <div class="admin-user-info">
+                <div class="user-info-content">
+                    <p><span data-i18n="admin_logged_in_as">👤 Đang đăng nhập:</span> <strong id="currentEmail"></strong></p>
+                </div>
+                <button id="adminLogout" class="btn btn-secondary" data-i18n="admin_logout_btn">
+                    🚪 Đăng Xuất
+                </button>
+            </div>
+
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab-btn active" data-tab="dashboard" data-i18n="admin_tab_dashboard">
+                    📊 Dashboard
+                </button>
+                <button class="admin-tab-btn" data-tab="manage-tools" data-i18n="admin_tab_manage_tools">
+                    🛠️ Quản Lý Công Cụ
+                </button>
+                <button class="admin-tab-btn" data-tab="manage-prompts" data-i18n="admin_tab_manage_prompts">
+                    📚 Prompt Library
+                </button>
+                <button class="admin-tab-btn" data-tab="manage-categories" data-i18n="admin_tab_manage_categories">
+                    🗂️ Danh Mục
+                </button>
+                <button class="admin-tab-btn" data-tab="backup" data-i18n="admin_tab_backup">
+                    💾 Backup / Restore
+                </button>
+                <button class="admin-tab-btn" data-tab="site-settings" data-i18n="admin_tab_site_settings">
+                    🎨 Giao Diện & Website
+                </button>
+            </div>
+
+            <!-- Tab: Dashboard -->
+            <div id="dashboardTab" class="admin-tab-content active">
+                <h3 data-i18n="admin_dashboard_heading">📊 Tổng Quan</h3>
+                <div id="dashboardStats" class="dashboard-stats"></div>
+
+                <div class="form-help">
+                    <p data-i18n="admin_dashboard_seed_heading">🌱 Khởi tạo dữ liệu lên Firebase</p>
+                    <p class="form-hint" data-i18n="admin_dashboard_seed_desc">Nếu Firebase chưa có dữ liệu (mới cấu hình lần đầu), bấm nút dưới đây để nhập bộ công cụ AI &amp; danh mục mặc định lên Firebase, làm dữ liệu khởi điểm cho toàn bộ người xem.</p>
+                    <button id="seedDefaultDataBtn" type="button" class="btn btn-success" data-i18n="admin_dashboard_seed_btn">
+                        🌱 Nhập Dữ Liệu Mặc Định Lên Firebase
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab: Manage Categories -->
+            <div id="manageCategoriesTab" class="admin-tab-content hidden">
+                <h3 data-i18n="admin_manage_categories_heading">🗂️ Quản Lý Danh Mục</h3>
+
+                <form id="addCategoryForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="categorySlug" data-i18n="admin_cat_slug_label">🔤 Mã danh mục (slug):</label>
+                            <input type="text" id="categorySlug" placeholder="vd: writing" data-i18n-placeholder="admin_cat_slug_placeholder" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryIcon" data-i18n="admin_cat_icon_label">🖼️ Icon (emoji):</label>
+                            <input type="text" id="categoryIcon" placeholder="✍️" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="categoryLabelVi" data-i18n="admin_cat_label_vi_label">🇻🇳 Tên (Tiếng Việt):</label>
+                            <input type="text" id="categoryLabelVi" placeholder="AI Viết lách" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryLabelEn" data-i18n="admin_cat_label_en_label">🇬🇧 Tên (English):</label>
+                            <input type="text" id="categoryLabelEn" placeholder="Writing AI" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary" data-i18n="admin_cat_add_btn">➕ Thêm Danh Mục</button>
+                    </div>
+                    <small class="form-hint" data-i18n="admin_cat_sidebar_note">Lưu ý: menu lọc nhanh ở sidebar hiện chỉ hiển thị 6 danh mục mặc định (Chat, Hình ảnh, Video, Lập trình, Tài chính, Học tập). Danh mục mới thêm vẫn dùng được khi thêm/sửa công cụ và tìm kiếm, nhưng chưa có nút lọc riêng ở sidebar.</small>
+                </form>
+
+                <div id="categoriesListContainer" class="categories-list"></div>
+            </div>
+
+            <!-- Tab: Backup / Restore -->
+            <div id="backupTab" class="admin-tab-content hidden">
+                <h3 data-i18n="admin_backup_heading">💾 Sao Lưu &amp; Phục Hồi Dữ Liệu</h3>
+
+                <div class="form-help">
+                    <p data-i18n="admin_backup_export_heading">⬇️ Xuất dữ liệu (Backup)</p>
+                    <p class="form-hint" data-i18n="admin_backup_export_desc">Tải toàn bộ dữ liệu hiện tại trên Firebase (Công cụ, Danh mục, Cài đặt giao diện) về máy dưới dạng 1 file JSON.</p>
+                    <button id="exportDataBtn" type="button" class="btn btn-primary" data-i18n="admin_backup_export_btn">⬇️ Xuất File Backup (.json)</button>
+                </div>
+
+                <div class="form-help">
+                    <p data-i18n="admin_backup_import_heading">⬆️ Nhập dữ liệu (Restore / Import)</p>
+                    <p class="form-hint" data-i18n="admin_backup_import_desc">Chọn 1 file JSON đã xuất trước đó để ghi đè lại toàn bộ dữ liệu trên Firebase. Hành động này sẽ THAY THẾ dữ liệu hiện tại.</p>
+                    <input type="file" id="importDataFile" accept="application/json">
+                    <button id="importDataBtn" type="button" class="btn btn-danger" data-i18n="admin_backup_import_btn">⬆️ Phục Hồi Từ File</button>
+                </div>
+            </div>
+
+            <!-- Tab: Manage Tools -->
+            <div id="manageToolsTab" class="admin-tab-content hidden">
+                <h3 data-i18n="admin_manage_tools_heading">🛠️ Quản Lý Công Cụ AI</h3>
+                
+                <div class="admin-sub-tabs">
+                    <button class="admin-sub-tab-btn active" data-sub-tab="add-tool" data-i18n="admin_subtab_add">
+                        ➕ Thêm Công Cụ
+                    </button>
+                    <button class="admin-sub-tab-btn" data-sub-tab="edit-tool" data-i18n="admin_subtab_edit">
+                        ✏️ Sửa Công Cụ
+                    </button>
+                    <button class="admin-sub-tab-btn" data-sub-tab="list-tools" data-i18n="admin_subtab_list">
+                        📋 Danh Sách
+                    </button>
+                    <button class="admin-sub-tab-btn" data-sub-tab="trending-tool" data-i18n="admin_subtab_trending">
+                        🔥 Trending AI
+                    </button>
+                </div>
+
+                <!-- Add Tool -->
+                <div id="addToolSub" class="admin-sub-tab-content active">
+                    <h4 data-i18n="admin_add_tool_heading">➕ Thêm Công Cụ AI Mới</h4>
+                    <form id="addToolForm" class="admin-form">
+                        <div class="form-group">
+                            <label for="toolName" data-i18n="admin_field_name_label">📝 Tên công cụ:</label>
+                            <input type="text" id="toolName" placeholder="VD: ChatGPT" data-i18n-placeholder="admin_field_name_placeholder">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolCategory" data-i18n="admin_field_category_label">📂 Danh mục:</label>
+                            <select id="toolCategory">
+                                <option value="" data-i18n="admin_option_select_category">-- Chọn danh mục --</option>
+                                <option value="chat" data-i18n="admin_cat_chat">💬 Chat AI</option>
+                                <option value="image" data-i18n="admin_cat_image">🎨 AI Hình ảnh</option>
+                                <option value="video" data-i18n="admin_cat_video">🎬 AI Video</option>
+                                <option value="code" data-i18n="admin_cat_code">💻 AI Lập trình</option>
+                                <option value="finance" data-i18n="admin_cat_finance">💰 AI Tài chính</option>
+                                <option value="study" data-i18n="admin_cat_study">📚 AI Học tập</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolIcon" data-i18n="admin_field_icon_label">🎨 Icon (emoji):</label>
+                            <input type="text" id="toolIcon" placeholder="VD: 🤖" data-i18n-placeholder="admin_field_icon_placeholder" maxlength="5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolSlug" data-i18n="admin_field_slug_label">🔗 URL slug (không dấu):</label>
+                            <input type="text" id="toolSlug" placeholder="VD: chatgpt" data-i18n-placeholder="admin_field_slug_placeholder">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolDescVi" data-i18n="admin_field_desc_vi_label">📖 Mô tả (Tiếng Việt):</label>
+                            <textarea id="toolDescVi" placeholder="Mô tả chi tiết..." data-i18n-placeholder="admin_field_desc_vi_placeholder" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolDescEn" data-i18n="admin_field_desc_en_label">📖 Mô tả (English):</label>
+                            <textarea id="toolDescEn" placeholder="Detailed description..." data-i18n-placeholder="admin_field_desc_en_placeholder" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolPrice" data-i18n="admin_field_price_label">💵 Loại giá:</label>
+                            <select id="toolPrice">
+                                <option value="free" data-i18n="admin_price_free">🆓 Miễn phí</option>
+                                <option value="pro" data-i18n="admin_price_pro">💎 Pro</option>
+                                <option value="both" data-i18n="admin_price_both">🔄 Cả hai</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolRating" data-i18n="admin_field_rating_label">⭐ Đánh giá (0-5):</label>
+                            <input type="number" id="toolRating" min="0" max="5" step="0.1" placeholder="4.5">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="toolWebsite" data-i18n="admin_field_website_label">🌐 Website:</label>
+                            <input type="url" id="toolWebsite" placeholder="https://example.com">
+                        </div>
+
+                        <div class="form-group form-group-checkbox">
+                            <label for="toolHasApi" data-i18n="admin_field_api_label">🔌 Có API cho nhà phát triển</label>
+                            <input type="checkbox" id="toolHasApi">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success" data-i18n="admin_add_tool_submit">
+                                ✅ Thêm Công Cụ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Edit Tool -->
+                <div id="editToolSub" class="admin-sub-tab-content hidden">
+                    <h4 data-i18n="admin_edit_tool_heading">✏️ Sửa Công Cụ AI</h4>
+                    <form id="editToolForm" class="admin-form">
+                        <div class="form-group">
+                            <label for="editToolSelect" data-i18n="admin_edit_select_label">🔧 Chọn công cụ để sửa:</label>
+                            <select id="editToolSelect">
+                                <option value="" data-i18n="admin_option_select_tool">-- Chọn công cụ --</option>
+                            </select>
+                        </div>
+
+                        <div id="editToolFields" class="edit-tool-fields hidden">
+                            <div class="form-group">
+                                <label for="editToolName" data-i18n="admin_field_name_label">📝 Tên công cụ:</label>
+                                <input type="text" id="editToolName" placeholder="VD: ChatGPT" data-i18n-placeholder="admin_field_name_placeholder">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolCategory" data-i18n="admin_field_category_label">📂 Danh mục:</label>
+                                <select id="editToolCategory">
+                                    <option value="chat" data-i18n="admin_cat_chat">💬 Chat AI</option>
+                                    <option value="image" data-i18n="admin_cat_image">🎨 AI Hình ảnh</option>
+                                    <option value="video" data-i18n="admin_cat_video">🎬 AI Video</option>
+                                    <option value="code" data-i18n="admin_cat_code">💻 AI Lập trình</option>
+                                    <option value="finance" data-i18n="admin_cat_finance">💰 AI Tài chính</option>
+                                    <option value="study" data-i18n="admin_cat_study">📚 AI Học tập</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolIcon" data-i18n="admin_field_icon_label">🎨 Icon (emoji):</label>
+                                <input type="text" id="editToolIcon" placeholder="VD: 🤖" data-i18n-placeholder="admin_field_icon_placeholder" maxlength="5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolSlug" data-i18n="admin_field_slug_label">🔗 URL slug (không dấu):</label>
+                                <input type="text" id="editToolSlug" placeholder="VD: chatgpt" data-i18n-placeholder="admin_field_slug_placeholder">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolDescVi" data-i18n="admin_field_desc_vi_label">📖 Mô tả (Tiếng Việt):</label>
+                                <textarea id="editToolDescVi" placeholder="Mô tả chi tiết..." data-i18n-placeholder="admin_field_desc_vi_placeholder" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolDescEn" data-i18n="admin_field_desc_en_label">📖 Mô tả (English):</label>
+                                <textarea id="editToolDescEn" placeholder="Detailed description..." data-i18n-placeholder="admin_field_desc_en_placeholder" rows="4"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolPrice" data-i18n="admin_field_price_label">💵 Loại giá:</label>
+                                <select id="editToolPrice">
+                                    <option value="free" data-i18n="admin_price_free">🆓 Miễn phí</option>
+                                    <option value="pro" data-i18n="admin_price_pro">💎 Pro</option>
+                                    <option value="both" data-i18n="admin_price_both">🔄 Cả hai</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolRating" data-i18n="admin_field_rating_label">⭐ Đánh giá (0-5):</label>
+                                <input type="number" id="editToolRating" min="0" max="5" step="0.1" placeholder="4.5">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editToolWebsite" data-i18n="admin_field_website_label">🌐 Website:</label>
+                                <input type="url" id="editToolWebsite" placeholder="https://example.com">
+                            </div>
+
+                            <div class="form-group form-group-checkbox">
+                                <label for="editToolHasApi" data-i18n="admin_field_api_label">🔌 Có API cho nhà phát triển</label>
+                                <input type="checkbox" id="editToolHasApi">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" data-i18n="admin_update_submit">
+                                    💾 Cập Nhật
+                                </button>
+                                <button type="button" id="deleteToolBtn" class="btn btn-danger" data-i18n="admin_delete_submit">
+                                    🗑️ Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tools List -->
+                <div id="listToolsSub" class="admin-sub-tab-content hidden">
+                    <h4 data-i18n="admin_tools_list_heading">📋 Danh Sách Công Cụ</h4>
+                    <div class="admin-search-row">
+                        <input type="text" id="toolsSearchInput" placeholder="🔍 Tìm công cụ theo tên..." data-i18n-placeholder="admin_tools_search_placeholder">
+                    </div>
+                    <div id="toolsList" class="tools-list"></div>
+                    <div id="toolsPagination" class="admin-pagination"></div>
+                </div>
+
+                <!-- Trending AI: 3 hạng (🥇🥈🥉), bấm "+" để chọn AI cho từng hạng -->
+                <div id="trendingToolSub" class="admin-sub-tab-content hidden">
+                    <h4 data-i18n="admin_trending_heading">🔥 Quản Lý Trending AI</h4>
+                    <p class="admin-hint" data-i18n="admin_trending_hint">Chọn tối đa 3 AI cho mục "AI thịnh hành hiện nay" trên trang chủ, xếp theo Hạng 1, 2, 3.</p>
+                    <div id="trendingRankSlots" class="trending-rank-slots"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Manage Prompt Library -->
+            <div id="managePromptsTab" class="admin-tab-content hidden">
+                <h3 data-i18n="admin_manage_prompts_heading">📚 Quản Lý Prompt Library</h3>
+
+                <div class="admin-sub-tabs">
+                    <button class="admin-sub-tab-btn active" data-sub-tab="add-prompt" data-i18n="admin_subtab_add_prompt">
+                        ➕ Thêm Prompt
+                    </button>
+                    <button class="admin-sub-tab-btn" data-sub-tab="edit-prompt" data-i18n="admin_subtab_edit_prompt">
+                        ✏️ Sửa Prompt
+                    </button>
+                    <button class="admin-sub-tab-btn" data-sub-tab="list-prompts" data-i18n="admin_subtab_list_prompts">
+                        📋 Danh Sách
+                    </button>
+                </div>
+
+                <!-- Add Prompt -->
+                <div id="addPromptSub" class="admin-sub-tab-content active">
+                    <h4 data-i18n="admin_subtab_add_prompt">➕ Thêm Prompt</h4>
+                    <form id="addPromptForm" class="admin-form">
+                        <div class="form-group">
+                            <label for="promptTitle" data-i18n="admin_prompt_field_title">📝 Tên prompt:</label>
+                            <input type="text" id="promptTitle" placeholder="VD: Professional YouTube Script" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptSlug" data-i18n="admin_prompt_field_slug">🔗 URL slug (không dấu):</label>
+                            <input type="text" id="promptSlug" placeholder="VD: professional-youtube-script" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptCategory" data-i18n="admin_prompt_field_category">📂 Danh mục:</label>
+                            <select id="promptCategory">
+                                <option value="coding">💻 Coding</option>
+                                <option value="writing">✍️ Writing</option>
+                                <option value="marketing">📈 Marketing</option>
+                                <option value="image">🎨 Image</option>
+                                <option value="video">🎬 Video</option>
+                                <option value="study">📚 Study</option>
+                                <option value="business">💼 Business</option>
+                                <option value="productivity">⚡ Productivity</option>
+                                <option value="research">🔬 Research</option>
+                                <option value="other">✨ Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptAi" data-i18n="admin_prompt_field_ai">🤖 AI phù hợp (phân cách bằng dấu phẩy):</label>
+                            <input type="text" id="promptAi" placeholder="VD: ChatGPT, Claude" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptDesc" data-i18n="admin_prompt_field_desc">📖 Mô tả ngắn:</label>
+                            <textarea id="promptDesc" rows="3" maxlength="300" placeholder="Mô tả ngắn gọn prompt này dùng để làm gì..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptContent" data-i18n="admin_prompt_field_content">📜 Nội dung prompt đầy đủ:</label>
+                            <textarea id="promptContent" rows="8" placeholder="Nội dung prompt đầy đủ..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="promptTags" data-i18n="admin_prompt_field_tags">🏷️ Tags (phân cách bằng dấu phẩy):</label>
+                            <input type="text" id="promptTags" placeholder="VD: youtube, script, content" autocomplete="off">
+                        </div>
+
+                        <div class="form-group form-group-checkbox">
+                            <label for="promptFeatured" data-i18n="admin_prompt_field_featured">🔥 Đặt làm Trending / Featured</label>
+                            <input type="checkbox" id="promptFeatured">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success" data-i18n="admin_add_prompt_submit">
+                                ✅ Thêm Prompt
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Edit Prompt -->
+                <div id="editPromptSub" class="admin-sub-tab-content hidden">
+                    <h4 data-i18n="admin_subtab_edit_prompt">✏️ Sửa Prompt</h4>
+                    <form id="editPromptForm" class="admin-form">
+                        <div class="form-group">
+                            <label for="editPromptSelect" data-i18n="admin_option_select_prompt">🔧 Chọn prompt để sửa:</label>
+                            <select id="editPromptSelect">
+                                <option value="" data-i18n="admin_option_select_prompt">-- Chọn prompt --</option>
+                            </select>
+                        </div>
+
+                        <div id="editPromptFields" class="edit-tool-fields hidden">
+                            <div class="form-group">
+                                <label for="editPromptTitle" data-i18n="admin_prompt_field_title">📝 Tên prompt:</label>
+                                <input type="text" id="editPromptTitle" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptSlug" data-i18n="admin_prompt_field_slug">🔗 URL slug (không dấu):</label>
+                                <input type="text" id="editPromptSlug" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptCategory" data-i18n="admin_prompt_field_category">📂 Danh mục:</label>
+                                <select id="editPromptCategory">
+                                    <option value="coding">💻 Coding</option>
+                                    <option value="writing">✍️ Writing</option>
+                                    <option value="marketing">📈 Marketing</option>
+                                    <option value="image">🎨 Image</option>
+                                    <option value="video">🎬 Video</option>
+                                    <option value="study">📚 Study</option>
+                                    <option value="business">💼 Business</option>
+                                    <option value="productivity">⚡ Productivity</option>
+                                    <option value="research">🔬 Research</option>
+                                    <option value="other">✨ Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptAi" data-i18n="admin_prompt_field_ai">🤖 AI phù hợp (phân cách bằng dấu phẩy):</label>
+                                <input type="text" id="editPromptAi" autocomplete="off">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptDesc" data-i18n="admin_prompt_field_desc">📖 Mô tả ngắn:</label>
+                                <textarea id="editPromptDesc" rows="3" maxlength="300"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptContent" data-i18n="admin_prompt_field_content">📜 Nội dung prompt đầy đủ:</label>
+                                <textarea id="editPromptContent" rows="8"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editPromptTags" data-i18n="admin_prompt_field_tags">🏷️ Tags (phân cách bằng dấu phẩy):</label>
+                                <input type="text" id="editPromptTags" autocomplete="off">
+                            </div>
+
+                            <div class="form-group form-group-checkbox">
+                                <label for="editPromptFeatured" data-i18n="admin_prompt_field_featured">🔥 Đặt làm Trending / Featured</label>
+                                <input type="checkbox" id="editPromptFeatured">
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary" data-i18n="admin_update_submit">
+                                    💾 Cập Nhật
+                                </button>
+                                <button type="button" id="deletePromptBtn" class="btn btn-danger" data-i18n="admin_delete_submit">
+                                    🗑️ Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Prompts List -->
+                <div id="listPromptsSub" class="admin-sub-tab-content hidden">
+                    <h4 data-i18n="admin_subtab_list_prompts">📋 Danh Sách Prompt</h4>
+                    <div class="admin-search-row">
+                        <input type="text" id="promptsAdminSearchInput" data-i18n-placeholder="admin_prompts_search_placeholder" placeholder="🔍 Tìm prompt theo tên...">
+                    </div>
+                    <div id="promptsAdminList" class="tools-list"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Site Settings (tên website + màu giao diện) -->
+            <div id="siteSettingsTab" class="admin-tab-content hidden">
+                <h3 data-i18n="admin_site_settings_heading">🎨 Giao Diện &amp; Tên Website</h3>
+
+                <form id="siteSettingsForm" class="admin-form">
+                    <div class="form-group">
+                        <label for="siteSettingName" data-i18n="admin_field_sitename_label">🏷️ Tên Website:</label>
+                        <input type="text" id="siteSettingName" placeholder="AI INFO">
+                    </div>
+
+                    <div class="form-group-colors">
+                        <div class="form-group form-group-color">
+                            <label for="siteColorPrimary" data-i18n="admin_field_color_primary_label">🎨 Màu chính</label>
+                            <input type="color" id="siteColorPrimary">
+                        </div>
+                        <div class="form-group form-group-color">
+                            <label for="siteColorPrimaryDark" data-i18n="admin_field_color_primary_dark_label">🎨 Màu chính (đậm)</label>
+                            <input type="color" id="siteColorPrimaryDark">
+                        </div>
+                        <div class="form-group form-group-color">
+                            <label for="siteColorBackground" data-i18n="admin_field_color_background_label">🖼️ Màu nền</label>
+                            <input type="color" id="siteColorBackground">
+                        </div>
+                        <div class="form-group form-group-color">
+                            <label for="siteColorText" data-i18n="admin_field_color_text_label">🔤 Màu chữ</label>
+                            <input type="color" id="siteColorText">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success" data-i18n="admin_site_settings_save">
+                            💾 Lưu Thay Đổi
+                        </button>
+                        <button type="button" id="resetSiteSettingsBtn" class="btn btn-secondary" data-i18n="admin_site_settings_reset">
+                            ↩️ Khôi Phục Mặc Định
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- Messages -->
+        <div id="adminMessage" class="admin-message hidden"></div>
+
+    </div>
+</div>
+
+
+
+
+    <!-- QUẢNG CÁO -->
+    <script async="async" data-cfasync="false" src="https://pl30691386.effectivecpmnetwork.com/2f76d5a221400ccf6c7aae6ee839c912/invoke.js"></script>
+    <div id="container-2f76d5a221400ccf6c7aae6ee839c912"></div>
+
+    <!-- 6 Ô LỢI ÍCH CUỐI TRANG -->
+
+    <section class="footer-stats">
+
+        <div class="stat-box">
+
+            <div class="stat-icon">⏱️</div>
+
+            <h4 data-i18n="stat1_title">Tiết kiệm thời gian</h4>
+
+            <p data-i18n="stat1_desc">Làm việc nhanh hơn với AI</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat-icon">📈</div>
+
+            <h4 data-i18n="stat2_title">Nâng cao hiệu suất</h4>
+
+            <p data-i18n="stat2_desc">Hoàn thành nhiều hơn trong thời gian ngắn</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat-icon">💰</div>
+
+            <h4 data-i18n="stat3_title">Tăng thu nhập</h4>
+
+            <p data-i18n="stat3_desc">Cơ hội nhiều hơn với công cụ AI</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat-icon">🧠</div>
+
+            <h4 data-i18n="stat4_title">Học hỏi nhanh hơn</h4>
+
+            <p data-i18n="stat4_desc">Tiếp cận kiến thức mới dễ dàng hơn</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat-icon">🎨</div>
+
+            <h4 data-i18n="stat5_title">Sáng tạo không giới hạn</h4>
+
+            <p data-i18n="stat5_desc">Biến ý tưởng thành hiện thực nhanh chóng</p>
+
+        </div>
+
+        <div class="stat-box">
+
+            <div class="stat-icon">🌐</div>
+
+            <h4 data-i18n="stat6_title">Kết nối xu hướng AI</h4>
+
+            <p data-i18n="stat6_desc">Luôn cập nhật công nghệ mới nhất</p>
+
+        </div>
+
+    </section>
+
+    <!-- QUẢNG CÁO -->
+    <script src="https://pl30691384.effectivecpmnetwork.com/1b/05/29/1b0529ef24bae78dfe607b660bc0e13f.js"></script>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <p>
+
+            <span data-i18n="footer_copyright">© 2026</span> <span id="footerSiteName">Tool AI</span>
+
+        </p>
+
+        <p class="credit">
+
+            
+
+        </p>
+
+    </footer>
+
+    <button id="backToTop" class="back-to-top" type="button" aria-label="Lên đầu trang" data-i18n-aria="back_to_top">↑</button>
+
+
+
+    <script src="../../data.js"></script>
+    <script src="../../prompts-data.js"></script>
+    <script src="data/prompts-default.js"></script>
+    <script src="../../articles.js"></script>
+    <script src="ai-pages-data.js"></script>
+
+    <script src="../../battle-data.js"></script>
+
+    <script src="../../translations.js"></script>
+
+    <!-- FIREBASE (đồng bộ dữ liệu + đăng nhập Admin) -->
+    <!-- Xem hướng dẫn lấy cấu hình trong file firebase-config.js -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="../../firebase-config.js"></script>
+
+    <!-- ADMIN AUTHENTICATION SYSTEM - LOAD TRƯỚC TIÊN -->
+    <script src="../../admin-auth-system.js"></script>
+
+    <!-- ADMIN UI HANDLER - LOAD THỨ HAI -->
+    <script src="../../admin-ui-handler.js"></script>
+
+    <!-- MAIN SCRIPT - LOAD CUỐI CÙNG -->
+    <script src="../../script.js"></script>
+
+    <!-- AI BATTLE ARENA - phu thuoc data.js, battle-data.js, script.js -->
+    <script src="../../battle.js"></script>
+
+    <script src="../../quiz.js"></script>
+
+    <script src="../../usecases.js"></script>
+
+    <script src="../../prompts.js"></script>
+
+    <!-- FUTURISTIC SPACE AI THEME EFFECTS (decorative only, additive) -->
+    <script src="../../cosmic-fx.js"></script>
+
+</body>
+
+</html>
